@@ -128,7 +128,7 @@ export default function FinishOrderInfo() {
             </div>
           </div>
 
-          <div className="mt-2  bg-[#ecececfa] text-start text-[14px] rounded-lg text-gray-600 p-6">
+          <div className="mt-2 bg-[#ecececfa] text-[13px] rounded-lg text-gray-600 p-2">
             <p style={{ margin: 0 }}>
               <strong>Sua solicitação está em análise.</strong> Caso necessário,
               um consultor entrará em contato com você pelo telefone cadastrado

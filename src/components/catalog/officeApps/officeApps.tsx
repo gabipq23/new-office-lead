@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs } from "antd";
+import { ConfigProvider, Tabs } from "antd";
 import type { TabsProps } from "antd";
 
 const onChange = (key: string) => {
@@ -246,18 +246,20 @@ export default function OfficeApps() {
         </div>
       </div>
 
-      <div className=" w-full">
-        <Tabs
-          defaultActiveKey="essenciais"
-          items={items}
-          onChange={onChange}
-          style={
-            {
-              "--ant-color-primary": "#7c3aed",
-            } as React.CSSProperties
-          }
-        />
-      </div>
+      <ConfigProvider theme={{ token: { colorPrimary: "#660099" } }}>
+        <div className=" w-full">
+          <Tabs
+            defaultActiveKey="essenciais"
+            items={items}
+            onChange={onChange}
+            style={
+              {
+                "--ant-color-primary": "#7c3aed",
+              } as React.CSSProperties
+            }
+          />
+        </div>
+      </ConfigProvider>
     </div>
   );
 }

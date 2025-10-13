@@ -261,13 +261,11 @@ export default function Cards() {
             </div>
 
             <Button
-              className="self-center 8 w-44"
-              style={{
-                backgroundColor: "#cb2166",
-                borderColor: "#cb2166",
-                color: "white",
-              }}
+              className="self-center"
+              style={{ width: "160px", height: "50px" }}
+              variant="solid"
               size="large"
+              color="magenta"
               onClick={() => (navigate("/choose-plan"), window.scrollTo(0, 0))}
             >
               Assinar plano

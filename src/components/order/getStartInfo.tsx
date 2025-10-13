@@ -25,6 +25,8 @@ export default function GetStartInfo() {
   const [phone, setPhone] = useState("");
   const [acceptContact, setAcceptContact] = useState(true);
   const [showServices, setShowServices] = useState(false);
+  const [showServicesWeb, setShowServicesWeb] = useState(true);
+
   const [isClient, setIsClient] = useState(true);
   const navigate = useNavigate();
 
@@ -80,6 +82,7 @@ export default function GetStartInfo() {
         "1 TB de armazenamento na nuvem por usuário",
         "Filtragem automática de malware e spam",
         "E-mail empresarial personalizado (nome@suaempresa.com)",
+        "Webinars com relatório e registro de participantes",
         "Incluso Copilot Chat e possíveis novas contratações de Copilot como complemento após compra",
         "Mais de 10 aplicativos adicionais para suas necessidades de negócios (incluindo Bookings, Planner e Forms)",
       ],
@@ -99,6 +102,7 @@ export default function GetStartInfo() {
 
   return (
     <div className="flex flex-col md:flex-row h-[100vh] ">
+      {/* mobile */}
       <div className="md:hidden flex flex-col bg-[#660099] text-white  pt-2">
         <div className=" flex items-end justify-end text-[12px] gap-2 px-3">
           <span className="text-white">🛒</span>
@@ -410,31 +414,31 @@ export default function GetStartInfo() {
                 </Checkbox>
               </ConfigProvider>
             </div>
-          </div>
-        </div>
-
-        <div className="">
-          <div className="flex  self-end justify-end ">
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: "#22c55e",
-                },
-              }}
-            >
-              <Button
-                type="primary"
-                size="large"
-                onClick={handleSubmit}
-                className=" self-end"
-              >
-                Continuar
-              </Button>
-            </ConfigProvider>
+            <div className="fixed bottom-0 left-0 right-0 md:right-90 bg-white border-t border-gray-200 p-4 shadow-lg z-50">
+              <div className="flex justify-end max-w-7xl mx-auto">
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: "#22c55e",
+                    },
+                  }}
+                >
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={handleSubmit}
+                    className=""
+                  >
+                    Continuar
+                  </Button>
+                </ConfigProvider>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* desktop */}
       <div className="hidden md:flex flex-col  w-90 bg-[#660099] text-white p-6">
         <div className="flex items-center gap-2 mb-6">
           <span className="text-white">🛒</span>
@@ -500,9 +504,9 @@ export default function GetStartInfo() {
                   size="small"
                   type="text"
                   variant="text"
-                  onClick={() => setShowServices(!showServices)}
+                  onClick={() => setShowServicesWeb(!showServicesWeb)}
                 >
-                  {showServices ? (
+                  {showServicesWeb ? (
                     <>
                       ver menos <ChevronUp className="inline w-3 h-3" />
                     </>
@@ -515,7 +519,7 @@ export default function GetStartInfo() {
               </ConfigProvider>
             </div>
 
-            {showServices && (
+            {showServicesWeb && (
               <div className="p-4 bg-purple-100">
                 <h4
                   style={{ fontWeight: "bold" }}
@@ -538,7 +542,7 @@ export default function GetStartInfo() {
                   <img src="/exchange.png" alt="Exchange" className="w-8 h-8" />
                 </div>
                 <hr className="my-3 border-t border-gray-200" />
-                <div className=" flex flex-col gap-1 text-[#660099] text-[10px]">
+                <div className=" flex flex-col gap-1 text-[#660099] text-[11px]">
                   {getPlanDetails().map((detail, index) => (
                     <div key={index} className="flex gap-1 items-center ">
                       <span className="text-[#4f0077] ">

@@ -1,4 +1,4 @@
-import { Button, ConfigProvider } from "antd";
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 function Banner() {
@@ -17,7 +17,7 @@ function Banner() {
 
         <img
           src={bannerWeb}
-          className="w-full h-[400px] md:h-[400px] lg:h-[600px] object-cover hidden md:block"
+          className="w-full h-[400px] md:h-[400px] lg:h-[440px] object-cover hidden md:block"
         />
       </div>
 
@@ -27,52 +27,49 @@ function Banner() {
       >
         <div className="text-start flex gap-2 flex-col px-6 md:py-4 lg:py-6  md:px-24 lg:px-32  ">
           <p
-            style={{ lineHeight: "1.3", margin: 0 }}
-            className="text-[16px] md:text-[28px] lg:text-[38px] text-[#f7f7f7] "
+            style={{ lineHeight: "1.", margin: 0 }}
+            className="text-[12px] md:text-[12px] lg:text-[16px] text-[#f7f7f7] "
           >
             OFFICE 365
           </p>
           <p
-            style={{ lineHeight: "1.3", margin: 0 }}
+            style={{ lineHeight: "1.0", margin: 0 }}
             className="text-[23px] md:text-[28px] lg:text-[38px] text-[#f7f7f7] "
           >
             Mais produtividade
           </p>
           <p
-            style={{ lineHeight: "1.3", margin: 0 }}
+            style={{ lineHeight: "1.0", margin: 0 }}
             className="text-[23px] mdtext-[28px] lg:text-[38px] text-[#f7f7f7] "
           >
             para sua empresa
           </p>
+          <p
+            style={{ lineHeight: "1.0", margin: 0 }}
+            className="text-[10px] md:text-[12px] lg:text-[14px] text-[#f7f7f7] "
+          >
+            PAGUE DIRETO NA SUA FATURA VIVO EMPRESAS
+          </p>
         </div>
 
-        <div className="mx-2 md:mx-18 lg:mx-24  ">
+        <div className="mx-6 md:mx-24 lg:mx-26 ">
           <img
             src="/vivo-empresas-m365.png"
-            className="w-48 sm:w-48 md:w-48 lg:w-56 xl:w-64 h-auto object-contain"
+            className="w-48 sm:w-48 md:w-48 lg:w-60 h-auto object-contain"
             alt="Microsoft 365"
           />
         </div>
 
         <div className="px-6  md:px-24 lg:px-32  ">
-          <ConfigProvider
-            theme={{
-              token: {
-                colorPrimaryBg: "#f7f7f7",
-                colorPrimaryText: "#660099",
-
-                colorPrimaryHover: "#aa00ff",
-              },
-            }}
+          <Button
+            style={{ width: "120px", height: "50px" }}
+            variant="solid"
+            size="large"
+            color="magenta"
+            onClick={() => navigate("/choose-plan")}
           >
-            <Button
-              variant="solid"
-              size="large"
-              onClick={() => navigate("/choose-plan")}
-            >
-              Assinar já
-            </Button>
-          </ConfigProvider>
+            Assinar já
+          </Button>
         </div>
       </div>
     </div>
