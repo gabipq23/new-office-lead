@@ -46,7 +46,7 @@ export default function FinishOrderInfo() {
           </div>
 
           <h1 className="text-[16px]  text-gray-700 mb-6">
-            Plano contratado com sucesso
+            Pedido realizado com sucesso
           </h1>
 
           <div className="bg-[#660099] text-white rounded-lg p-6 py-8">

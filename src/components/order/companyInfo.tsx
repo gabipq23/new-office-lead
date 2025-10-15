@@ -2,21 +2,71 @@ import { useState } from "react";
 import { Button, Input, Checkbox, Radio, ConfigProvider } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Check, ChevronDown, ChevronUp, CircleCheck } from "lucide-react";
+import { useOrderStore } from "../../context/context";
+import { useOrderControler } from "../../controller/controller";
+import { CPFInput, PhoneInput } from "../../utils/input";
 
 export default function CompanyInfo() {
   const [hasWorkspace, setHasWorkspace] = useState(false);
-  const [cnpj, setCnpj] = useState("00.000.000/0000-00");
-
-  const [cpf, setCpf] = useState("000.000.000-00");
+  const { updateCompanyInfo } = useOrderStore();
+  const [cpf, setcpf] = useState("");
+  const [phone, setPhone] = useState("");
   const [acceptContact, setAcceptContact] = useState(true);
   const [showServices, setShowServices] = useState(false);
   const [showServicesWeb, setShowServicesWeb] = useState(true);
+  const [domainName, setDomainName] = useState("");
+  const [domainSuggestion1, setDomainSuggestion1] = useState("");
+  const [domainSuggestion2, setDomainSuggestion2] = useState("");
+  const [hasTriedSubmit, setHasTriedSubmit] = useState(false);
+  const { buildCompleteOrder, clearOrder } = useOrderStore();
+
+  const { createOrder } = useOrderControler();
 
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    navigate("/order");
-    window.scrollTo(0, 0);
+  const isFormValid = () => {
+    const cpfDigits = cpf.replace(/\D/g, "");
+    const hasValidCpf = cpfDigits.length === 11;
+
+    const phoneDigits = phone.replace(/\D/g, "");
+    const hasValidPhone = phoneDigits.length === 11;
+
+    const hasAcceptedTerms = acceptContact === true;
+
+    let hasDomainInfo = true;
+    if (!hasWorkspace) {
+      // Se não tem workspace, precisa das DUAS sugestões obrigatórias
+      hasDomainInfo =
+        domainSuggestion1.trim() !== "" && domainSuggestion2.trim() !== "";
+    } else {
+      hasDomainInfo = domainName.trim() !== "";
+    }
+
+    return hasValidCpf && hasValidPhone && hasAcceptedTerms && hasDomainInfo;
+  };
+
+  const handleSubmit = async () => {
+    setHasTriedSubmit(true);
+    if (!isFormValid()) {
+      return;
+    }
+    updateCompanyInfo({
+      managerPhone: phone,
+      cpf: cpf,
+      alreadyHaveWorkspace: hasWorkspace,
+      acceptContact: acceptContact,
+      domainName: domainName,
+      domainSuggestion1: domainSuggestion1,
+      domainSuggestion2: domainSuggestion2,
+    });
+
+    const orderData = buildCompleteOrder();
+    if (orderData) {
+      await createOrder({ data: orderData });
+      clearOrder();
+      navigate("/order");
+      window.scrollTo(0, 0);
+    }
   };
 
   return (
@@ -256,10 +306,12 @@ export default function CompanyInfo() {
               <div className="flex w-full gap-4">
                 <div className="w-full">
                   <label className="flex items-center gap-1  text-[12px] text-gray-600 mb-2">
-                    Sugestão 1
+                    Sugestão 1 <span className="text-red-500">*</span>
                   </label>
                   <div className="flex">
                     <Input
+                      value={domainSuggestion1}
+                      onChange={(e) => setDomainSuggestion1(e.target.value)}
                       size="middle"
                       placeholder="seudomínio"
                       className="rounded-r-none border-r-0"
@@ -268,13 +320,22 @@ export default function CompanyInfo() {
                       @onmicrosoft.com
                     </div>
                   </div>
+                  {hasTriedSubmit &&
+                    !hasWorkspace &&
+                    domainSuggestion1.trim() === "" && (
+                      <p className="text-red-500 text-xs mt-1">
+                        Campo obrigatório
+                      </p>
+                    )}
                 </div>
                 <div className="w-full">
                   <label className="flex items-center gap-1  text-[12px] text-gray-600 mb-2">
-                    Sugestão 2
+                    Sugestão 2 <span className="text-red-500">*</span>
                   </label>
                   <div className="flex">
                     <Input
+                      value={domainSuggestion2}
+                      onChange={(e) => setDomainSuggestion2(e.target.value)}
                       size="middle"
                       placeholder="seudomínio"
                       className="rounded-r-none border-r-0"
@@ -283,6 +344,13 @@ export default function CompanyInfo() {
                       @onmicrosoft.com
                     </div>
                   </div>
+                  {hasTriedSubmit &&
+                    !hasWorkspace &&
+                    domainSuggestion2.trim() === "" && (
+                      <p className="text-red-500 text-xs mt-1">
+                        Campo obrigatório
+                      </p>
+                    )}
                 </div>
               </div>
             </>
@@ -290,10 +358,12 @@ export default function CompanyInfo() {
             <>
               <div className="w-full">
                 <label className="flex items-center gap-1  text-[12px] text-gray-600 mb-2">
-                  Informe seu domínio
+                  Informe seu domínio <span className="text-red-500">*</span>
                 </label>
                 <div className="flex">
                   <Input
+                    value={domainName}
+                    onChange={(e) => setDomainName(e.target.value)}
                     size="middle"
                     placeholder="seudomínio"
                     className="rounded-r-none border-r-0"
@@ -302,41 +372,42 @@ export default function CompanyInfo() {
                     @onmicrosoft.com
                   </div>
                 </div>
+                {hasTriedSubmit && hasWorkspace && domainName.trim() === "" && (
+                  <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
+                )}
               </div>
             </>
           )}
 
           <div className="mb-8 mt-4">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
               <div>
-                <label className="block text-[12px] text-gray-600 mb-2">
-                  CNPJ
+                <label className="flex items-center gap-1 text-[12px] text-gray-600 mb-2">
+                  CPF do representante legal{" "}
+                  <span className="text-red-500">*</span>
                 </label>
-                <Input
-                  size="middle"
-                  placeholder="00.000.000/0000-00"
-                  value={cnpj}
-                  onChange={(e) => setCnpj(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="flex items-center gap-1  text-[12px] text-gray-600 mb-2">
-                  CPF do representante legal
-                </label>
-                <Input
-                  size="middle"
-                  placeholder="000.000.000-00"
+                <CPFInput
+                  format="###.###.###-##"
                   value={cpf}
-                  onChange={(e) => setCpf(e.target.value)}
+                  onValueChange={(values) => setcpf(values.value)}
                 />
+                {hasTriedSubmit && cpf.replace(/\D/g, "").length !== 11 && (
+                  <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
+                )}
               </div>
 
               <div>
                 <label className="block text-[12px] text-gray-600 mb-2">
-                  E-mail
+                  Telefone <span className="text-red-500">*</span>
                 </label>
-                <Input size="middle" placeholder="Informe seu e-mail" />
+                <PhoneInput
+                  format="(##) #####-####"
+                  value={phone}
+                  onValueChange={(values) => setPhone(values.value)}
+                />
+                {hasTriedSubmit && phone.replace(/\D/g, "").length !== 11 && (
+                  <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
+                )}
               </div>
             </div>
 
@@ -353,10 +424,10 @@ export default function CompanyInfo() {
                   onChange={(e) => setAcceptContact(e.target.checked)}
                   className="text-gray-600"
                 >
-                  Aceito e concordo com os termos e contratos. Em caso de não
-                  possuir linhas ativas Vivo Empresas Móvel, autorizo a criação
-                  do meu usuário e aceite de contrato na Plataforma Digital Vivo
-                  Empresas.
+                  <span className="text-red-500">*</span> Aceito e concordo com
+                  os termos e contratos. Em caso de não possuir linhas ativas
+                  Vivo Empresas Móvel, autorizo a criação do meu usuário e
+                  aceite de contrato na Plataforma Digital Vivo Empresas.
                 </Checkbox>
               </ConfigProvider>
             </div>
@@ -393,6 +464,9 @@ export default function CompanyInfo() {
         </div>
 
         <div className="bg-white text-gray-800 rounded-lg  relative">
+          <div className="bg-orange-500 text-white px-2 py-1 rounded-xl text-[10px] inline-block mb-4 absolute -top-2 right-2">
+            + 2GB na linha móvel
+          </div>
           <div className="">
             <h3
               style={{ fontWeight: "bold", padding: "12px" }}
