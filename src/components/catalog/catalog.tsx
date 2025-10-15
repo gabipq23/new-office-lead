@@ -7,6 +7,7 @@ import Footer from "../footer/footer";
 import Payments from "./payments/payments";
 import Benefits from "./benefits/benefits";
 import OfficeApps from "./officeApps/officeApps";
+import BannerOffers from "./bannerOffers/bannerOffers";
 
 export default function Catalog() {
   const queryClient = new QueryClient();
@@ -17,7 +18,7 @@ export default function Catalog() {
         <Header />
         <SubHeader />
         <Banner />
-
+        <BannerOffers />
         <Cards />
         <Payments />
         <OfficeApps />

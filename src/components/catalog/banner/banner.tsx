@@ -52,10 +52,10 @@ function Banner() {
           </p>
         </div>
 
-        <div className="mx-6 md:mx-24 lg:mx-26 ">
+        <div className="mx-2 md:mx-16 lg:mx-24 ">
           <img
             src="/vivo-empresas-m365.png"
-            className="w-48 sm:w-48 md:w-48 lg:w-60 h-auto object-contain"
+            className="w-48 sm:w-48 md:w-64 lg:w-76 h-auto object-contain"
             alt="Microsoft 365"
           />
         </div>
