@@ -128,7 +128,7 @@ function SubHeader() {
         <p style={{ margin: 0 }} className="text-[13px]">
           MICROSOFT 365
         </p>
-        <div className="flex gap-2 md:text-[10px] lg:text-[11px] text-[#666666] cursor-pointer">
+        <div className="flex gap-2 self-end md:text-[10px] lg:text-[11px] text-[#666666] cursor-pointer">
           <a
             onClick={(e) => {
               e.preventDefault();
