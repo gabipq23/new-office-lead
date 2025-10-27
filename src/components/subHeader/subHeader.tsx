@@ -57,17 +57,19 @@ function SubHeader() {
       key: "2",
       label: (
         <a
-          href="#formas-de-pagamento"
+          href="#porque-escolher"
           onClick={(e) => {
             e.preventDefault();
-            document.getElementById("formas-de-pagamento")?.scrollIntoView({
+            document.getElementById("porque-escolher")?.scrollIntoView({
               behavior: "smooth",
               block: "start",
             });
           }}
           className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
         >
-          Formas de Pagamento
+          {hasOffice === "true"
+            ? "Como migrar"
+            : "Porque Escolher Google Workspace"}
         </a>
       ),
     },
@@ -108,24 +110,24 @@ function SubHeader() {
       ),
     },
 
-    // {
-    //   key: "5",
-    //   label: (
-    //     <a
-    //       href="#duvidas"
-    //       onClick={(e) => {
-    //         e.preventDefault();
-    //         document.getElementById("duvidas")?.scrollIntoView({
-    //           behavior: "smooth",
-    //           block: "start",
-    //         });
-    //       }}
-    //       className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
-    //     >
-    //       Principais dúvidas
-    //     </a>
-    //   ),
-    // },
+    {
+      key: "5",
+      label: (
+        <a
+          href="#duvidas"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("duvidas")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }}
+          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+        >
+          Principais dúvidas
+        </a>
+      ),
+    },
   ];
 
   return (
@@ -192,17 +194,19 @@ function SubHeader() {
           )}
 
           <a
-            href="#formas-de-pagamento"
+            href="#porque-escolher"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("formas-de-pagamento")?.scrollIntoView({
+              document.getElementById("porque-escolher")?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
               });
             }}
             className="hover:text-[#660099]"
           >
-            Formas de Pagamento
+            {hasOffice === "true"
+              ? "Como migrar"
+              : "Porque Escolher Google Workspace"}
           </a>
           <a
             href="#apps"
@@ -231,7 +235,7 @@ function SubHeader() {
             Benefícios
           </a>
 
-          {/* <a
+          <a
             href="#duvidas"
             onClick={(e) => {
               e.preventDefault();
@@ -243,7 +247,7 @@ function SubHeader() {
             className="hover:text-[#660099]"
           >
             Principais dúvidas
-          </a> */}
+          </a>
         </div>
       </div>
 

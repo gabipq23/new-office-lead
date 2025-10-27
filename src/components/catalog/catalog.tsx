@@ -11,6 +11,8 @@ import BannerOffers from "./bannerOffers/bannerOffers";
 import { useEffect, useState } from "react";
 import { Button, ConfigProvider, Modal } from "antd";
 import Testimonials from "./testimonials/testimonials";
+import InfoAnchor from "./infoAnchor/infoAnchor";
+import FAQ from "./faq/faq";
 
 export default function Catalog() {
   const queryClient = new QueryClient();
@@ -40,11 +42,11 @@ export default function Catalog() {
         <Banner />
         <BannerOffers />
         {hasOffice === "true" ? <Testimonials /> : <Cards />}
-
+        <InfoAnchor />
         <Payments />
         <OfficeApps />
         <Benefits />
-
+        <FAQ />
         <Footer />
 
         <Modal

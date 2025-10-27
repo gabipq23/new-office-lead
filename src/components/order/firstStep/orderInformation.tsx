@@ -295,12 +295,12 @@ export default function OrderInformation({
                       key={plan?.id}
                       className="flex flex-wrap justify-start gap-2 mb-1 max-w-[800px] bg-green-50 py-2 rounded-r-md"
                     >
-                      <div className="w-[160px]">
+                      <div className="w-[180px]">
                         <label className="block text-[12px] text-gray-600 mb-2">
                           Plano {index + 1}
                         </label>
                         <div className="h-8 px-3 py-1 border border-gray-300 rounded-md bg-white flex items-center">
-                          <span className="text-gray-700 text-[13px]">
+                          <span className="text-gray-700 text-[14px]">
                             Office 365 {plan?.planName}
                           </span>
                         </div>
@@ -368,7 +368,7 @@ export default function OrderInformation({
                   ))}
 
                 <div className="flex max-w-[800px] flex-wrap justify-start gap-2 mb-6">
-                  <div className="w-[160px]">
+                  <div className="w-[180px]">
                     <label className="block text-[12px] text-gray-600 mb-2">
                       Plano{" "}
                       {confirmedPlans.filter((plan) => plan.newPlan === false)
@@ -382,7 +382,7 @@ export default function OrderInformation({
                         const priceMap = {
                           Starter: { mensal: "49,00", anual: "32,72" },
                           Standard: { mensal: "98,00", anual: "81,80" },
-                          Plus: { mensal: "154,00", anual: "128,40" },
+                          Negocios: { mensal: "154,00", anual: "128,40" },
                         };
                         updateCurrentPlanInput("planName", value);
                         updateCurrentPlanInput("type", "anual");
@@ -395,7 +395,7 @@ export default function OrderInformation({
                     >
                       <Option value="Starter">Office 365 Starter</Option>
                       <Option value="Standard">Office 365 Standard</Option>
-                      <Option value="Plus">Office 365 Negócios</Option>
+                      <Option value="Negocios">Office 365 Negócios</Option>
                     </Select>
                     {hasTriedSubmit && !currentPlanInput?.planName && (
                       <p className="text-red-500 text-xs mt-1">
@@ -472,7 +472,7 @@ export default function OrderInformation({
                           const priceMap = {
                             Starter: { mensal: "49,00", anual: "32,72" },
                             Standard: { mensal: "98,00", anual: "81,80" },
-                            Plus: { mensal: "154,00", anual: "128,40" },
+                            Negocios: { mensal: "154,00", anual: "128,40" },
                           };
 
                           const price =
@@ -661,7 +661,7 @@ export default function OrderInformation({
                     const priceMap = {
                       Starter: { mensal: "49,00", anual: "32,72" },
                       Standard: { mensal: "98,00", anual: "81,80" },
-                      Plus: { mensal: "154,00", anual: "128,40" },
+                      Negocios: { mensal: "154,00", anual: "128,40" },
                     };
                     updateNewPlanInput("planName", value);
                     updateNewPlanInput("type", "anual");
@@ -674,7 +674,7 @@ export default function OrderInformation({
                 >
                   <Option value="Starter">Office 365 Starter</Option>
                   <Option value="Standard">Office 365 Standard</Option>
-                  <Option value="Plus">Office 365 Negócios</Option>
+                  <Option value="Negocios">Office 365 Negócios</Option>
                 </Select>
                 {hasTriedSubmit && !newPlanInput?.planName && (
                   <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
@@ -748,7 +748,7 @@ export default function OrderInformation({
                       const priceMap = {
                         Starter: { mensal: "49,00", anual: "32,72" },
                         Standard: { mensal: "98,00", anual: "81,80" },
-                        Plus: { mensal: "154,00", anual: "128,40" },
+                        Negocios: { mensal: "154,00", anual: "128,40" },
                       };
 
                       const price =
