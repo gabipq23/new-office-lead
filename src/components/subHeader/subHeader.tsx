@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 function SubHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const hasOffice = sessionStorage.getItem("alreadyHaveOffice");
+
   const menuItems = [
     {
       key: "1",
@@ -198,15 +200,38 @@ function SubHeader() {
         </div>
       </div>
 
-      <Button
-        style={{ width: "120px", height: "35px" }}
-        variant="solid"
-        size="middle"
-        color="magenta"
-        onClick={() => navigate("/choose-plan")}
-      >
-        Contrate agora
-      </Button>
+      <div className="block lg:hidden">
+        <Button
+          style={{
+            width: "120px",
+            height: "35px",
+            fontWeight: "bold",
+            borderRadius: "14px",
+          }}
+          variant="solid"
+          size="middle"
+          color="magenta"
+          onClick={() => navigate("/choose-plan")}
+        >
+          {hasOffice === "true" ? "QUERO MIGRAR" : "CONTRATAR"}
+        </Button>
+      </div>
+      <div className="lg:block hidden">
+        <Button
+          style={{
+            width: "180px",
+            height: "35px",
+            fontWeight: "bold",
+            borderRadius: "14px",
+          }}
+          variant="solid"
+          size="middle"
+          color="magenta"
+          onClick={() => navigate("/choose-plan")}
+        >
+          {hasOffice === "true" ? "QUERO MIGRAR" : "CONTRATAR"}
+        </Button>
+      </div>
     </div>
   );
 }
