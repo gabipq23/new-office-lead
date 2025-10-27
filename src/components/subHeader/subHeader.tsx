@@ -6,27 +6,53 @@ import { useNavigate } from "react-router-dom";
 function SubHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const hasOffice = sessionStorage.getItem("alreadyHaveOffice");
+  const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
 
   const menuItems = [
-    {
-      key: "1",
-      label: (
-        <a
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("ofertas")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-          href="#ofertas"
-          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
-        >
-          Ofertas
-        </a>
-      ),
-    },
+    ...(hasOffice !== "true"
+      ? [
+          {
+            key: "1",
+            label: (
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("ofertas")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
+                href="#ofertas"
+                className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+              >
+                Ofertas
+              </a>
+            ),
+          },
+        ]
+      : []),
+    ...(hasOffice === "true"
+      ? [
+          {
+            key: "1",
+            label: (
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("depoimentos")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
+                href="#depoimentos"
+                className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+              >
+                Depoimentos
+              </a>
+            ),
+          },
+        ]
+      : []),
     {
       key: "2",
       label: (
@@ -115,8 +141,8 @@ function SubHeader() {
           className="border-0"
         >
           <div className="flex items-center gap-2 cursor-pointer border border-gray-400 px-3 py-2 rounded">
-            <span className="text-[12px] md:text-[16px] font-medium">
-              GOOGLE WORKSPACE
+            <span className="text-[12px] md:text-[16px] font-bold">
+              MICROSOFT 365
             </span>
             <ChevronDown
               size={16}
@@ -126,24 +152,45 @@ function SubHeader() {
         </Dropdown>
       </div>
 
-      <div className="hidden md:flex items-center justify-center gap-3">
-        <p style={{ margin: 0 }} className="text-[13px]">
+      <div className="hidden  md:flex items-center justify-center gap-4 ">
+        <p
+          style={{ margin: 0, fontWeight: "bold" }}
+          className="text-[16px] text-[#575757] "
+        >
           MICROSOFT 365
         </p>
-        <div className="flex gap-2 self-end md:text-[10px] lg:text-[11px] text-[#666666] cursor-pointer">
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("ofertas")?.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }}
-            href="#ofertas"
-            className="hover:text-[#660099] "
-          >
-            Ofertas
-          </a>
+        <div className="flex  pt-0.5 h-full gap-6 md:text-[10px] lg:text-[14px] text-[#666666] cursor-pointer">
+          {hasOffice !== "true" && (
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("ofertas")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+              href="#ofertas"
+              className="hover:text-[#660099] "
+            >
+              Ofertas
+            </a>
+          )}
+          {hasOffice === "true" && (
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("depoimentos")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+              href="#depoimentos"
+              className="hover:text-[#660099] "
+            >
+              Depoimentos
+            </a>
+          )}
+
           <a
             href="#formas-de-pagamento"
             onClick={(e) => {

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import type { OrderData } from "../interfaces/order";
@@ -23,5 +23,63 @@ export function useOrderControler() {
         console.error(error.message);
       },
     });
-  return { createOrder, isCreatingOrderLoading };
+
+  const { mutate: updateOrder, isPending: isUpdateOrderFetching } = useMutation(
+    {
+      mutationFn: async ({ id, data }: { id: number; data: any }) =>
+        orderService.updateOrder(id, data),
+      onMutate: async () =>
+        await queryClient.cancelQueries({ queryKey: ["order"] }),
+      onSuccess: () => {
+        toast.success("Pedido alterado com sucesso!");
+        queryClient.invalidateQueries({ queryKey: ["order"] });
+      },
+      onError: (error) => {
+        toast.error("Houve um erro ao alterar o pedido. Tente novamente");
+        console.error(error.message);
+      },
+    }
+  );
+
+  const { mutate: changeOrderStatus } = useMutation({
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: { status: string };
+    }) => orderService.changeOrderStatus(id, data),
+    onMutate: async () =>
+      await queryClient.cancelQueries({ queryKey: ["order"] }),
+    onSuccess: () => {
+      toast.success("Status do pedido alterado com sucesso!");
+      queryClient.invalidateQueries({ queryKey: ["order"] });
+    },
+    onError: (error) => {
+      toast.error("Houve um erro ao alterar o status do pedido.");
+      console.error(error.message);
+    },
+  });
+  return {
+    createOrder,
+    isCreatingOrderLoading,
+    updateOrder,
+    isUpdateOrderFetching,
+    changeOrderStatus,
+  };
+}
+
+export function useOrderById(orderId: number) {
+  const orderService = new GetOfficePlanService();
+
+  return useQuery({
+    queryKey: ["order", orderId],
+    queryFn: () => {
+      return orderService.getOrderById(orderId);
+    },
+    enabled: !!orderId && !isNaN(orderId) && orderId > 0,
+
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 }

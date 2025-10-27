@@ -2,31 +2,40 @@ import { create } from "zustand";
 import type { Plan, OrderData } from "../interfaces/order";
 
 interface BasicInfo {
-  planName: string;
   cnpj: string;
   email: string;
-  managerName: string;
-  users: number;
+  manager_name: string;
+  managerPhone: string;
   isVivoClient: boolean;
   acceptContact: boolean;
 }
 
-interface CompanyInfo {
-  managerPhone: string;
-  cpf: string;
+interface ConfirmedPlan {
+  id: string;
+  planName: string;
+  price: string;
+  users: number;
+  type: "mensal" | "anual";
+  newPlan: boolean;
+}
 
+interface CompanyInfo {
   domainName: string;
-  alreadyHaveWorkspace: boolean;
-  domainSuggestion1: string;
-  domainSuggestion2: string;
-  acceptContact: boolean;
+  alreadyHaveMicrosoftDomain: boolean;
+  acceptTerms: boolean;
 }
 
 interface OrderFlowStore {
   selectedPlan: Plan | null;
+  confirmedPlans: ConfirmedPlan[];
   basicInfo: BasicInfo;
   companyInfo: Partial<CompanyInfo>;
   setSelectedPlan: (plan: Plan) => void;
+  setConfirmedPlans: (plans: ConfirmedPlan[]) => void;
+  addPlanToConfirmed: (plan: Plan) => void;
+  addCurrentPlanToConfirmed: (plan: Plan) => void;
+  addNewPlanToConfirmed: (plan: Plan) => void;
+  removePlanFromConfirmed: (planId: string) => void;
   updateBasicInfo: (info: Partial<BasicInfo>) => void;
   updateCompanyInfo: (info: Partial<CompanyInfo>) => void;
   buildCompleteOrder: () => OrderData | null;
@@ -35,28 +44,75 @@ interface OrderFlowStore {
 
 export const useOrderStore = create<OrderFlowStore>((set, get) => ({
   selectedPlan: null,
+  confirmedPlans: [],
   basicInfo: {
-    planName: "",
     cnpj: "",
     email: "",
-    managerName: "Teste",
-    users: 1,
-    isVivoClient: true,
+    manager_name: "",
+    managerPhone: "",
+    isVivoClient: sessionStorage.getItem("isVivoClient") === "true",
     acceptContact: true,
   },
   companyInfo: {
-    managerPhone: "2199884465451",
-    cpf: "",
-
     domainName: "",
-    alreadyHaveWorkspace: false,
-    domainSuggestion1: "",
-    domainSuggestion2: "",
-    acceptContact: true,
+    alreadyHaveMicrosoftDomain: false,
+    acceptTerms: false,
   },
 
   setSelectedPlan: (plan: Plan) => {
     set({ selectedPlan: plan });
+  },
+
+  setConfirmedPlans: (plans: ConfirmedPlan[]) => {
+    set({ confirmedPlans: plans });
+  },
+
+  addPlanToConfirmed: (plan: Plan) => {
+    const confirmedPlan: ConfirmedPlan = {
+      id: plan.id || Date.now().toString(),
+      planName: plan.planName,
+      price: plan.price,
+      users: plan.users || 1,
+      type: plan.type || "anual",
+      newPlan: true,
+    };
+    set((state) => ({
+      confirmedPlans: [...state.confirmedPlans, confirmedPlan],
+    }));
+  },
+
+  addCurrentPlanToConfirmed: (plan: Plan) => {
+    const confirmedPlan: ConfirmedPlan = {
+      id: plan.id || Date.now().toString(),
+      planName: plan.planName,
+      price: plan.price,
+      users: plan.users || 1,
+      type: plan.type || "anual",
+      newPlan: false,
+    };
+    set((state) => ({
+      confirmedPlans: [...state.confirmedPlans, confirmedPlan],
+    }));
+  },
+
+  addNewPlanToConfirmed: (plan: Plan) => {
+    const confirmedPlan: ConfirmedPlan = {
+      id: plan.id || Date.now().toString(),
+      planName: plan.planName,
+      price: plan.price,
+      users: plan.users || 1,
+      type: plan.type || "anual",
+      newPlan: true,
+    };
+    set((state) => ({
+      confirmedPlans: [...state.confirmedPlans, confirmedPlan],
+    }));
+  },
+
+  removePlanFromConfirmed: (planId: string) => {
+    set((state) => ({
+      confirmedPlans: state.confirmedPlans.filter((plan) => plan.id !== planId),
+    }));
   },
 
   updateBasicInfo: (info: Partial<BasicInfo>) => {
@@ -70,47 +126,50 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
       companyInfo: { ...state.companyInfo, ...info },
     }));
   },
-  // junta todas as infos ja preenchidas em um unico objeto para criar o pedido
+
   buildCompleteOrder: (): OrderData | null => {
     const state = get();
-    if (!state.selectedPlan) return null;
+    if (state.confirmedPlans.length === 0) return null;
+
+    const apiPlans: Plan[] = state.confirmedPlans.map((plan) => ({
+      planName: `Microsoft Office 365 ${plan.planName}`,
+      price: plan.price,
+      type: plan.type as "mensal" | "anual",
+      users: plan.users,
+      newPlan: plan.newPlan,
+    }));
+
     return {
-      plan: [state.selectedPlan],
-      users: state.basicInfo.users,
-      planName: state.basicInfo.planName,
-      cnpj: state.basicInfo.cnpj,
       email: state.basicInfo.email,
-      managerName: state.basicInfo.managerName || "Teste",
-      isVivoClient: state.basicInfo.isVivoClient,
-      managerPhone: state.companyInfo.managerPhone || "",
-      cpf: state.companyInfo.cpf || "",
       domainName: state.companyInfo.domainName || "",
-      alreadyHaveWorkspace: state.companyInfo.alreadyHaveWorkspace || false,
-      domainSuggestion1: state.companyInfo.domainSuggestion1 || "",
-      domainSuggestion2: state.companyInfo.domainSuggestion2 || "",
+      cnpj: state.basicInfo.cnpj,
+      managerPhone: state.basicInfo.managerPhone,
+      manager_name: state.basicInfo.manager_name,
+      isVivoClient: state.basicInfo.isVivoClient,
+      alreadyHaveMicrosoftDomain:
+        state.companyInfo.alreadyHaveMicrosoftDomain || false,
+      acceptContact: state.basicInfo.acceptContact,
+      acceptTerms: state.companyInfo.acceptTerms || false,
+      plan: apiPlans,
     };
   },
 
   clearOrder: () => {
     set({
       selectedPlan: null,
+      confirmedPlans: [],
       basicInfo: {
-        planName: "",
         cnpj: "",
         email: "",
-        managerName: "Teste",
-        users: 1,
+        manager_name: "",
+        managerPhone: "",
         isVivoClient: true,
         acceptContact: true,
       },
       companyInfo: {
-        cpf: "",
-
         domainName: "",
-        alreadyHaveWorkspace: false,
-        domainSuggestion1: "",
-        domainSuggestion2: "",
-        acceptContact: true,
+        alreadyHaveMicrosoftDomain: false,
+        acceptTerms: false,
       },
     });
   },

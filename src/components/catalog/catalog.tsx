@@ -10,6 +10,7 @@ import OfficeApps from "./officeApps/officeApps";
 import BannerOffers from "./bannerOffers/bannerOffers";
 import { useEffect, useState } from "react";
 import { Button, ConfigProvider, Modal } from "antd";
+import Testimonials from "./testimonials/testimonials";
 
 export default function Catalog() {
   const queryClient = new QueryClient();
@@ -17,7 +18,7 @@ export default function Catalog() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState(1);
 
-  const hasOffice = sessionStorage.getItem("alreadyHaveOffice");
+  const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
   useEffect(() => {
     setIsModalOpen(true);
   }, []);
@@ -27,7 +28,7 @@ export default function Catalog() {
   };
 
   const handleOfficeResponse = (hasOffice: boolean) => {
-    sessionStorage.setItem("alreadyHaveOffice", hasOffice.toString());
+    sessionStorage.setItem("alreadyHaveMicrosoftDomain", hasOffice.toString());
     setModalStep(2);
   };
 
@@ -38,7 +39,8 @@ export default function Catalog() {
         <SubHeader />
         <Banner />
         <BannerOffers />
-        <Cards />
+        {hasOffice === "true" ? <Testimonials /> : <Cards />}
+
         <Payments />
         <OfficeApps />
         <Benefits />

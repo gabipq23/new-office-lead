@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function Banner() {
   const navigate = useNavigate();
-  const hasOffice = sessionStorage.getItem("alreadyHaveOffice");
+  const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
 
   const bannerMobile = "/vivo-empresas-m365-2509-mobile-1212x808.png";
   const bannerWeb = "/vivo-empresas-m365-2509-desk-1920x703.png";
