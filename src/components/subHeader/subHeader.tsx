@@ -67,9 +67,7 @@ function SubHeader() {
           }}
           className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
         >
-          {hasOffice === "true"
-            ? "Como migrar"
-            : "Porque Escolher Google Workspace"}
+          {hasOffice === "true" ? "Como migrar" : "Porque Escolher Office 365"}
         </a>
       ),
     },
@@ -206,7 +204,7 @@ function SubHeader() {
           >
             {hasOffice === "true"
               ? "Como migrar"
-              : "Porque Escolher Google Workspace"}
+              : "Porque Escolher Office 365"}
           </a>
           <a
             href="#apps"

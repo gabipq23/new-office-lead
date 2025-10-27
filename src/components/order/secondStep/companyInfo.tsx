@@ -22,11 +22,11 @@ export default function CompanyInfo() {
   const [hasTriedSubmit, setHasTriedSubmit] = useState(false);
 
   useEffect(() => {
-    const savedWorkspaceValue = sessionStorage.getItem(
+    const savedOfficeValue = sessionStorage.getItem(
       "alreadyHaveMicrosoftDomain"
     );
-    if (savedWorkspaceValue !== null) {
-      const boolValue = savedWorkspaceValue === "true";
+    if (savedOfficeValue !== null) {
+      const boolValue = savedOfficeValue === "true";
       sethasOffice(boolValue);
     }
   }, []);

@@ -23,7 +23,7 @@ export default function FinishOrderInfo() {
   const confirmedPlans =
     orderDetails?.plan ||
     orderDetails?.plans ||
-    orderDetails?.workspace_plans ||
+    orderDetails?.office_plans ||
     [];
   const basicInfo = orderDetails
     ? {
@@ -48,7 +48,7 @@ export default function FinishOrderInfo() {
           orderDetails.company_domain,
         alreadyHaveMicrosoftDomain:
           orderDetails.alreadyHaveMicrosoftDomain ||
-          orderDetails.already_have_workspace,
+          orderDetails.already_have_office,
         acceptTerms: orderDetails.acceptTerms || orderDetails.accept_terms,
       }
     : null;
@@ -199,7 +199,7 @@ export default function FinishOrderInfo() {
         {/* Email e Telefone */}
         <div className="hidden md:grid grid-cols-2 gap-28 text-[14px] w-full text-neutral-700">
           <p>
-            <strong>Já possui Workspace:</strong>{" "}
+            <strong>Já possui Office:</strong>{" "}
             {companyInfo?.alreadyHaveMicrosoftDomain ? "Sim" : "Não"}
           </p>{" "}
           <p>
@@ -211,7 +211,7 @@ export default function FinishOrderInfo() {
         {/* Mobile: Email e Cliente Vivo em coluna */}
         <div className="flex flex-col gap-2 md:hidden text-[14px]  text-neutral-700">
           <p>
-            <strong>Já possui Workspace:</strong>{" "}
+            <strong>Já possui Office:</strong>{" "}
             {companyInfo?.alreadyHaveMicrosoftDomain ? "Sim" : "Não"}
           </p>{" "}
           <p>
