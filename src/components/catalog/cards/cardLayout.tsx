@@ -1,12 +1,11 @@
-import { Button, ConfigProvider, Radio } from "antd";
+import { Button, ConfigProvider } from "antd";
 
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CardLayout({ cardData }: { cardData: any }) {
-  const [selectedClientType, setSelectedClientType] =
-    useState<string>("cliente");
+  const isVivoClient = sessionStorage.getItem("isVivoClient");
   const navigate = useNavigate();
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const toggleDetails = (cardType: string) => {
@@ -32,7 +31,7 @@ export default function CardLayout({ cardData }: { cardData: any }) {
               <h3 className="text-[28px]  ">{cardData.title}</h3>
             </div>
 
-            <ConfigProvider
+            {/* <ConfigProvider
               theme={{
                 token: {
                   colorPrimary: "#660099",
@@ -81,7 +80,7 @@ export default function CardLayout({ cardData }: { cardData: any }) {
                   </div>
                 </Radio.Group>
               </div>
-            </ConfigProvider>
+            </ConfigProvider> */}
 
             <div className="mx-4 mb-3 flex flex-col items-start bg-[#f0f0f0] p-3 px-2 text-start rounded text-[14px]">
               <p style={{ margin: 0 }} className=" text-[11px] ">
@@ -106,7 +105,7 @@ export default function CardLayout({ cardData }: { cardData: any }) {
             <div className="flex flex-col items-start gap-1 mx-4">
               <p style={{ margin: 0 }} className=" text-[20px] text-gray-900">
                 R${" "}
-                {selectedClientType === "cliente"
+                {isVivoClient === "true"
                   ? cardData.priceClient
                   : cardData.priceNonClient}{" "}
                 <span className="text-[20px] text-gray-600">/mês</span>
@@ -122,7 +121,7 @@ export default function CardLayout({ cardData }: { cardData: any }) {
               color="magenta"
               onClick={() => (navigate("/choose-plan"), window.scrollTo(0, 0))}
             >
-              Assinar plano
+              CONTRATAR
             </Button>
             <ConfigProvider
               theme={{
