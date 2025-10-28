@@ -4,9 +4,10 @@ import "./index.css";
 
 import { Routes, Route } from "react-router-dom";
 import Catalog from "./components/catalog/catalog";
-import GetStartInfo from "./components/order/getStartInfo";
-import CompanyInfo from "./components/order/companyInfo";
+
 import FinishOrderInfo from "./components/order/finishOrderInfo";
+import FirstStep from "./components/order/firstStep/firstStep";
+import CompanyInfo from "./components/order/secondStep/companyInfo";
 
 function App() {
   const queryClient = new QueryClient();
@@ -15,11 +16,12 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<Catalog />} />
-          <Route path="/choose-plan" element={<GetStartInfo />} />
-
-          <Route path="/client-information" element={<CompanyInfo />} />
-
-          <Route path="/order" element={<FinishOrderInfo />} />
+          <Route path="/choose-plan" element={<FirstStep />} />
+          <Route
+            path="/client-information/:orderId"
+            element={<CompanyInfo />}
+          />
+          <Route path="/order/:id" element={<FinishOrderInfo />} />
         </Routes>
       </QueryClientProvider>
     </div>

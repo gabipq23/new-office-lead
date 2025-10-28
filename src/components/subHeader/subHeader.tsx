@@ -6,40 +6,68 @@ import { useNavigate } from "react-router-dom";
 function SubHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
+
   const menuItems = [
-    {
-      key: "1",
-      label: (
-        <a
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("ofertas")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-          href="#ofertas"
-          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
-        >
-          Ofertas
-        </a>
-      ),
-    },
+    ...(hasOffice !== "true"
+      ? [
+          {
+            key: "1",
+            label: (
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("ofertas")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
+                href="#ofertas"
+                className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+              >
+                Ofertas
+              </a>
+            ),
+          },
+        ]
+      : []),
+    ...(hasOffice === "true"
+      ? [
+          {
+            key: "1",
+            label: (
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("depoimentos")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
+                href="#depoimentos"
+                className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+              >
+                Depoimentos
+              </a>
+            ),
+          },
+        ]
+      : []),
     {
       key: "2",
       label: (
         <a
-          href="#formas-de-pagamento"
+          href="#porque-escolher"
           onClick={(e) => {
             e.preventDefault();
-            document.getElementById("formas-de-pagamento")?.scrollIntoView({
+            document.getElementById("porque-escolher")?.scrollIntoView({
               behavior: "smooth",
               block: "start",
             });
           }}
           className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
         >
-          Formas de Pagamento
+          {hasOffice === "true" ? "Como migrar" : "Porque Escolher Office 365"}
         </a>
       ),
     },
@@ -80,24 +108,24 @@ function SubHeader() {
       ),
     },
 
-    // {
-    //   key: "5",
-    //   label: (
-    //     <a
-    //       href="#duvidas"
-    //       onClick={(e) => {
-    //         e.preventDefault();
-    //         document.getElementById("duvidas")?.scrollIntoView({
-    //           behavior: "smooth",
-    //           block: "start",
-    //         });
-    //       }}
-    //       className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
-    //     >
-    //       Principais dúvidas
-    //     </a>
-    //   ),
-    // },
+    {
+      key: "5",
+      label: (
+        <a
+          href="#duvidas"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("duvidas")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }}
+          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+        >
+          Principais dúvidas
+        </a>
+      ),
+    },
   ];
 
   return (
@@ -113,8 +141,8 @@ function SubHeader() {
           className="border-0"
         >
           <div className="flex items-center gap-2 cursor-pointer border border-gray-400 px-3 py-2 rounded">
-            <span className="text-[12px] md:text-[16px] font-medium">
-              GOOGLE WORKSPACE
+            <span className="text-[12px] md:text-[16px] font-bold">
+              MICROSOFT 365
             </span>
             <ChevronDown
               size={16}
@@ -124,36 +152,59 @@ function SubHeader() {
         </Dropdown>
       </div>
 
-      <div className="hidden md:flex items-center justify-center gap-3">
-        <p style={{ margin: 0 }} className="text-[13px]">
+      <div className="hidden  md:flex items-center justify-center gap-4 ">
+        <p
+          style={{ margin: 0, fontWeight: "bold" }}
+          className="text-[16px] text-[#575757] "
+        >
           MICROSOFT 365
         </p>
-        <div className="flex gap-2 md:text-[10px] lg:text-[11px] text-[#666666] cursor-pointer">
+        <div className="flex  pt-0.5 h-full gap-6 md:text-[10px] lg:text-[14px] text-[#666666] cursor-pointer">
+          {hasOffice !== "true" && (
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("ofertas")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+              href="#ofertas"
+              className="hover:text-[#660099] "
+            >
+              Ofertas
+            </a>
+          )}
+          {hasOffice === "true" && (
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("depoimentos")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+              href="#depoimentos"
+              className="hover:text-[#660099] "
+            >
+              Depoimentos
+            </a>
+          )}
+
           <a
+            href="#porque-escolher"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("ofertas")?.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }}
-            href="#ofertas"
-            className="hover:text-[#660099] "
-          >
-            Ofertas
-          </a>
-          <a
-            href="#formas-de-pagamento"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("formas-de-pagamento")?.scrollIntoView({
+              document.getElementById("porque-escolher")?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
               });
             }}
             className="hover:text-[#660099]"
           >
-            Formas de Pagamento
+            {hasOffice === "true"
+              ? "Como migrar"
+              : "Porque Escolher Office 365"}
           </a>
           <a
             href="#apps"
@@ -182,7 +233,7 @@ function SubHeader() {
             Benefícios
           </a>
 
-          {/* <a
+          <a
             href="#duvidas"
             onClick={(e) => {
               e.preventDefault();
@@ -194,19 +245,42 @@ function SubHeader() {
             className="hover:text-[#660099]"
           >
             Principais dúvidas
-          </a> */}
+          </a>
         </div>
       </div>
 
-      <Button
-        style={{ width: "120px", height: "35px" }}
-        variant="solid"
-        size="middle"
-        color="magenta"
-        onClick={() => navigate("/choose-plan")}
-      >
-        Contrate agora
-      </Button>
+      <div className="block lg:hidden">
+        <Button
+          style={{
+            width: "120px",
+            height: "35px",
+            fontWeight: "bold",
+            borderRadius: "14px",
+          }}
+          variant="solid"
+          size="middle"
+          color="magenta"
+          onClick={() => navigate("/choose-plan")}
+        >
+          {hasOffice === "true" ? "QUERO MIGRAR" : "CONTRATAR"}
+        </Button>
+      </div>
+      <div className="lg:block hidden">
+        <Button
+          style={{
+            width: "180px",
+            height: "35px",
+            fontWeight: "bold",
+            borderRadius: "14px",
+          }}
+          variant="solid"
+          size="middle"
+          color="magenta"
+          onClick={() => navigate("/choose-plan")}
+        >
+          {hasOffice === "true" ? "QUERO MIGRAR" : "CONTRATAR"}
+        </Button>
+      </div>
     </div>
   );
 }
