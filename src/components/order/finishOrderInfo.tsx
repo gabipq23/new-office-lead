@@ -19,7 +19,8 @@ export default function FinishOrderInfo() {
     );
   }
 
-  const orderDetails = orderData?.data;
+  const orderDetails = orderData;
+  console.log(orderDetails);
   const confirmedPlans =
     orderDetails?.plan ||
     orderDetails?.plans ||
@@ -62,9 +63,10 @@ export default function FinishOrderInfo() {
   }
 
   const getTotalPrice = () => {
-    return confirmedPlans.reduce((total: number, plan: Plan) => {
-      return total + parseFloat(plan.price.replace(",", ".")) * plan.users;
+    const total = confirmedPlans.reduce((total: number, plan: Plan) => {
+      return total + Number(plan.price.replace(",", ".")) * plan.users;
     }, 0);
+    return total.toFixed(2).replace(".", ",");
   };
 
   const getTotalUsers = () => {
@@ -97,12 +99,18 @@ export default function FinishOrderInfo() {
                 {plan?.type}
               </p>
               <p className="text-[14px] font-semibold w-40 text-center">
-                R$ {parseInt(plan?.price)},00/
-                {plan?.type === "anual" ? "mês" : "mês"}
+                R${" "}
+                {Number(plan.price.replace(",", "."))
+                  .toFixed(2)
+                  .replace(".", ",")}
+                /{plan?.type === "anual" ? "mês" : "mês"}
               </p>
               <p className="text-[16px] text-neutral-700 font-semibold w-40 text-center">
-                R$ {parseInt(plan?.price) * plan?.users},00/
-                {plan.type === "anual" ? "mês" : "mês"}
+                R${" "}
+                {(Number(plan.price.replace(",", ".")) * plan?.users)
+                  .toFixed(2)
+                  .replace(".", ",")}
+                /{plan.type === "anual" ? "mês" : "mês"}
               </p>
             </div>
             {index < confirmedPlans?.length - 1 && (
@@ -134,15 +142,21 @@ export default function FinishOrderInfo() {
             <div className="flex justify-between">
               <span className="font-semibold text-[#666]">Valor Unitário:</span>
               <span>
-                R$ {parseInt(plan.price)},00/
-                {plan.type === "anual" ? "mês" : "mês"}
+                R${" "}
+                {Number(plan.price.replace(",", "."))
+                  .toFixed(2)
+                  .replace(".", ",")}
+                /{plan.type === "anual" ? "mês" : "mês"}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold text-[#666]">Valor Total:</span>
               <span className="font-bold">
-                R$ {parseInt(plan.price) * plan.users},00/
-                {plan.type === "anual" ? "mês" : "mês"}
+                R${" "}
+                {(Number(plan.price.replace(",", ".")) * plan.users)
+                  .toFixed(2)
+                  .replace(".", ",")}
+                /{plan.type === "anual" ? "mês" : "mês"}
               </span>
             </div>
           </div>
@@ -150,7 +164,7 @@ export default function FinishOrderInfo() {
       </div>
     </div>
   );
-
+  console.log(basicInfo);
   // Informações do Comprador
   const infoComprador = (
     <div className="flex flex-col items-start rounded-[26px] w-full p-4 gap-8 ">
@@ -247,7 +261,7 @@ export default function FinishOrderInfo() {
       <div className="flex flex-col w-full items-start mx-3 gap-2">
         <div className="flex w-full justify-between text-[16px] font-bold">
           <p className="text-[#666666]">Valor Total Mensal</p>
-          <p className="text-end text-[#660099]">R$ {getTotalPrice()},00/mês</p>
+          <p className="text-end text-[#660099]">R$ {getTotalPrice()}/mês</p>
         </div>
       </div>
     </div>

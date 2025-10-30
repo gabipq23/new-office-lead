@@ -93,20 +93,32 @@ export default function OrderInformation({
       isVivoClient: isVivoClient,
       acceptContact: acceptContact,
     });
+
     const alreadyHaveMicrosoftDomain = hasOffice === "true";
 
-    const orderData = {
-      email: email,
-      cnpj: cnpj,
-      manager_name: manager_name,
-      managerPhone: managerPhone,
-      isVivoClient: isVivoClient,
-      acceptContact: acceptContact,
-      plan: confirmedPlans,
-      alreadyHaveMicrosoftDomain: alreadyHaveMicrosoftDomain,
+    const domainNameValue = alreadyHaveMicrosoftDomain ? "" : "";
 
-      domainName: alreadyHaveMicrosoftDomain ? "" : "",
-      acceptTerms: alreadyHaveMicrosoftDomain ? true : false,
+    // Formata os dados no formato correto: pedido + itens
+    const orderData = {
+      pedido: {
+        email: email,
+        cnpj: cnpj.replace(/\D/g, ""), // Remove formatação do CNPJ
+        manager_name: manager_name,
+        managerPhone: managerPhone.replace(/\D/g, ""), // Remove formatação do telefone
+        isVivoClient: isVivoClient,
+        acceptContact: acceptContact,
+        alreadyHaveMicrosoftDomain: alreadyHaveMicrosoftDomain,
+        domainName: domainNameValue,
+        acceptTerms: alreadyHaveMicrosoftDomain,
+        status: "aberto",
+      },
+      itens: confirmedPlans.map((plan) => ({
+        planName: plan.planName,
+        price: plan.price,
+        type: plan.type,
+        users: plan.users,
+        newPlan: plan.newPlan || false,
+      })),
     };
 
     try {
@@ -114,13 +126,13 @@ export default function OrderInformation({
 
       if (alreadyHaveMicrosoftDomain) {
         await changeOrderStatus({
-          id: Number(response.id),
+          id: Number(response.pedido.id),
           data: { status: "fechado" },
         });
 
-        navigate(`/order/${response.id}`);
+        navigate(`/order/${response.pedido.id}`);
       } else {
-        navigate(`/client-information/${response.id}`);
+        navigate(`/client-information/${response.pedido.id}`);
       }
 
       window.scrollTo(0, 0);
@@ -145,6 +157,7 @@ export default function OrderInformation({
         price: currentPlanInput?.price,
         users: currentPlanInput?.users,
         type: currentPlanInput?.type as "mensal" | "anual",
+        newPlan: false, // Plano atual
       };
 
       addCurrentPlanToConfirmed(newPlan);
@@ -188,6 +201,7 @@ export default function OrderInformation({
         price: newPlanInput?.price,
         users: newPlanInput?.users,
         type: newPlanInput?.type as "mensal" | "anual",
+        newPlan: true, // Novo plano
       };
 
       addNewPlanToConfirmed(newPlan);

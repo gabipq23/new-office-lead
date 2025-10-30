@@ -69,9 +69,11 @@ export default function CompanyInfo() {
     });
 
     const updateData = {
-      domainName: domainName,
-      alreadyHaveMicrosoftDomain: hasOffice,
-      acceptTerms: acceptTerms,
+      pedido: {
+        domainName: domainName,
+        alreadyHaveMicrosoftDomain: hasOffice,
+        acceptTerms: acceptTerms,
+      },
     };
 
     try {
