@@ -14,11 +14,13 @@ function Banner() {
         <img
           src={bannerMobile}
           className="w-full h-[440px] md:h-[440px] object-cover block md:hidden"
+          alt="Banner"
         />
 
         <img
           src={bannerWeb}
           className="w-full h-[400px] md:h-[400px] lg:h-[440px] object-cover hidden md:block"
+          alt="Banner"
         />
       </div>
 

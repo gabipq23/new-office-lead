@@ -1,14 +1,11 @@
 import { useState } from "react";
-
 import { useOrderStore } from "../../../context/context";
-
 import OrderResumeMobile from "../components/orderResumeMobile";
 import OrderResumeDesktop from "../components/orderResumeDesktop";
 import OrderInformation from "./orderInformation";
 
 export default function FirstStep() {
   const { basicInfo, updateBasicInfo, confirmedPlans } = useOrderStore();
-
   const [showServices, setShowServices] = useState(false);
 
   const getTotalPrice = () => {

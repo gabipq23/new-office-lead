@@ -21,9 +21,11 @@ export default function Catalog() {
   const [modalStep, setModalStep] = useState(1);
 
   const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
+
   useEffect(() => {
     setIsModalOpen(true);
   }, []);
+
   const handleIsVivoClientResponse = (isVivoClient: boolean) => {
     sessionStorage.setItem("isVivoClient", isVivoClient.toString());
     setIsModalOpen(false);
