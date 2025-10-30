@@ -29,46 +29,34 @@ function Banner() {
         className="absolute inset-0 flex flex-col justify-evenly px-6 md:px-24 lg:px-32   "
       >
         <div className="text-start flex gap-2 flex-col px-6 md:py-4 lg:py-6  md:px-24 lg:px-32  ">
-          <p
-            style={{ lineHeight: "1.", margin: 0 }}
-            className="text-[12px] md:text-[12px] lg:text-[16px] text-[#f7f7f7] "
-          >
-            {hasOffice === "true" ? "" : " CONTRATE AGORA"}
-          </p>
           {hasOffice === "true" ? (
             <>
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
                 className="text-[23px] md:text-[28px] lg:text-[28px] text-[#f7f7f7] "
               >
-                MIGRE SUA CONTA OFFICE 365
+                Migre sua conta Office 365
               </p>
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
                 className="text-[23px] mdtext-[28px] lg:text-[28px] text-[#f7f7f7] "
               >
-                PRA VIVO E TENHA BENEFÍCIOS
+                através da Vivo e ganhe benefícios
               </p>
             </>
           ) : (
             <>
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
-                className="text-[23px] md:text-[28px] lg:text-[38px] text-[#f7f7f7] "
+                className="text-[23px] mdtext-[28px] lg:text-[38px] text-[#f7f7f7] "
               >
-                Office 365:
+                Contrate Office 365
               </p>
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
                 className="text-[23px] mdtext-[28px] lg:text-[38px] text-[#f7f7f7] "
               >
-                Mais produtividade
-              </p>
-              <p
-                style={{ lineHeight: "1.0", margin: 0 }}
-                className="text-[23px] mdtext-[28px] lg:text-[38px] text-[#f7f7f7] "
-              >
-                para sua empresa
+                através da Vivo e ganhe benefícios
               </p>
             </>
           )}
@@ -77,17 +65,15 @@ function Banner() {
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
                 className="text-[10px] md:text-[20px] lg:text-[26px] text-[#f7f7f7] "
-              >
-                Garanta esta oferta por tempo limitado
-              </p>
+              ></p>
             </>
           ) : (
             <>
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
-                className="text-[10px] md:text-[12px] lg:text-[14px] text-[#f7f7f7] "
+                className="text-[10px] md:text-[14px] lg:text-[18px] text-[#f7f7f7] "
               >
-                INCLUA DIRETO NA SUA FATURA VIVO EMPRESAS
+                A partir de R$49 por mês
               </p>
             </>
           )}
@@ -95,7 +81,7 @@ function Banner() {
 
         <div className="mx-2 md:mx-16 lg:mx-24 ">
           <img
-            src="/vivo-empresas-m365.png"
+            src="/oferta_new_7.png"
             className="w-48 sm:w-48 md:w-64 lg:w-76 h-auto object-contain"
             alt="Microsoft 365"
           />
