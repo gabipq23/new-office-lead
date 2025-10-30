@@ -150,7 +150,7 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
         state.companyInfo.alreadyHaveMicrosoftDomain || false,
       acceptContact: state.basicInfo.acceptContact,
       acceptTerms: state.companyInfo.acceptTerms || false,
-      plan: apiPlans,
+      plans: apiPlans,
     };
   },
 

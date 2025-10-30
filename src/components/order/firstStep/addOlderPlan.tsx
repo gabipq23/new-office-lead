@@ -1,6 +1,7 @@
 import { Button, Input, Select, Tooltip } from "antd";
 import { CircleAlert } from "lucide-react";
 import { formatPrice } from "../../../utils/formatPrice";
+import type { Plan } from "../../../interfaces/order";
 const { Option } = Select;
 
 export default function AddOlderPlan({
@@ -30,8 +31,8 @@ export default function AddOlderPlan({
           </h3>
 
           {confirmedPlans
-            ?.filter((plan) => plan.newPlan === false)
-            ?.map((plan, index: number) => (
+            ?.filter((plan: Plan) => plan.newPlan === false)
+            ?.map((plan: Plan, index: number) => (
               <div
                 key={plan?.id}
                 className="flex flex-wrap justify-start gap-2 mb-1 max-w-[800px] bg-green-50 py-2 rounded-r-md"
@@ -109,7 +110,7 @@ export default function AddOlderPlan({
           <div className="flex max-w-[800px] flex-wrap justify-start gap-2 mb-6">
             <div className="w-[180px]">
               <label className="block text-[12px] text-gray-600 mb-2">
-                {confirmedPlans.filter((plan) => plan.newPlan === false)
+                {confirmedPlans.filter((plan: Plan) => plan.newPlan === false)
                   .length + 1}{" "}
                 <span className="text-red-500">*</span>
               </label>

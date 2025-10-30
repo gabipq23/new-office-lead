@@ -1,6 +1,7 @@
 import { Button, Input, Select, Tooltip } from "antd";
 import { CircleAlert } from "lucide-react";
 import { formatPrice } from "../../../utils/formatPrice";
+import type { Plan } from "../../../interfaces/order";
 const { Option } = Select;
 export default function AddNewPlan({
   hasOffice,
@@ -30,8 +31,8 @@ export default function AddNewPlan({
       </h3>
 
       {confirmedPlans
-        ?.filter((plan) => plan.newPlan === true)
-        ?.map((plan, index: number) => (
+        ?.filter((plan: Plan) => plan.newPlan === true)
+        ?.map((plan: Plan, index: number) => (
           <div
             key={plan?.id}
             className="flex flex-wrap justify-start gap-2 mb-1 max-w-[800px] bg-green-50 py-2 rounded-r-md"
@@ -108,7 +109,8 @@ export default function AddNewPlan({
         <div className="w-[160px]">
           <label className="block text-[12px] text-gray-600 mb-2">
             Plano{" "}
-            {confirmedPlans.filter((plan) => plan.newPlan === true).length + 1}{" "}
+            {confirmedPlans.filter((plan: Plan) => plan.newPlan === true)
+              .length + 1}{" "}
             <span className="text-red-500">*</span>
           </label>
           <Select

@@ -1,6 +1,5 @@
 import { ChevronDown, ChevronUp, CircleCheck } from "lucide-react";
 import { useState } from "react";
-
 import { Button, ConfigProvider } from "antd";
 import type { Plan } from "../../../interfaces/order";
 import { formatPrice } from "../../../utils/formatPrice";
