@@ -241,13 +241,13 @@ export function useOrderInformation(
           data: { status: "fechado" },
         });
         sessionStorage.setItem("orderStatus", "fechado");
-
+        sessionStorage.setItem("orderId", response.pedido.id);
         navigate(`/order/${response.pedido.id}`);
       } else {
         sessionStorage.setItem("orderStatus", "aberto");
+        sessionStorage.setItem("orderId", response.pedido.id);
         navigate(`/client-information/${response.pedido.id}`);
       }
-
       window.scrollTo(0, 0);
     } catch (error) {
       console.error("Erro ao processar pedido:", error);
