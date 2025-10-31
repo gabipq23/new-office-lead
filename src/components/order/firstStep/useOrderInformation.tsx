@@ -240,8 +240,11 @@ export function useOrderInformation(
           id: Number(response.pedido.id),
           data: { status: "fechado" },
         });
+        sessionStorage.setItem("orderStatus", "fechado");
+
         navigate(`/order/${response.pedido.id}`);
       } else {
+        sessionStorage.setItem("orderStatus", "aberto");
         navigate(`/client-information/${response.pedido.id}`);
       }
 

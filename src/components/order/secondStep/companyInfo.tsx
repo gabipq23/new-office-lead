@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Input, Checkbox, ConfigProvider, Tooltip } from "antd";
+import { Button, Input, ConfigProvider, Tooltip } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { Check, CircleAlert } from "lucide-react";
 import { useOrderStore } from "../../../context/context";
@@ -15,9 +15,9 @@ export default function CompanyInfo() {
   const [hasOffice, sethasOffice] = useState(
     companyInfo.alreadyHaveMicrosoftDomain || false
   );
-  const [acceptTerms, setAcceptTerms] = useState(
-    companyInfo.acceptTerms || true
-  );
+
+  const acceptTerms = companyInfo.acceptTerms || true;
+
   const [showServices, setShowServices] = useState(false);
   const [hasTriedSubmit, setHasTriedSubmit] = useState(false);
 
@@ -88,6 +88,7 @@ export default function CompanyInfo() {
       });
 
       clearOrder();
+      sessionStorage.setItem("orderStatus", "fechado");
 
       navigate(`/order/${orderId}`);
       window.scrollTo(0, 0);
