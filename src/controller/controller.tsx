@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-
-import type { OrderData } from "../interfaces/order";
+import type { CreateOrderData } from "../interfaces/order";
 import { GetOfficePlanService } from "../services/order";
 
 export function useOrderControler() {
@@ -11,7 +10,7 @@ export function useOrderControler() {
 
   const { mutateAsync: createOrder, isPending: isCreatingOrderLoading } =
     useMutation({
-      mutationFn: async ({ data }: { data: OrderData }) =>
+      mutationFn: async ({ data }: { data: CreateOrderData }) =>
         orderService.createOrder(data),
       onMutate: async () =>
         await queryClient.cancelQueries({ queryKey: ["order"] }),

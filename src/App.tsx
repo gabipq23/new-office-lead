@@ -5,7 +5,7 @@ import "./index.css";
 import { Routes, Route } from "react-router-dom";
 import Catalog from "./components/catalog/catalog";
 
-import FinishOrderInfo from "./components/order/finishOrderInfo";
+import FinishOrderInfo from "./components/order/finishOrder/finishOrderInfo";
 import FirstStep from "./components/order/firstStep/firstStep";
 import CompanyInfo from "./components/order/secondStep/companyInfo";
 

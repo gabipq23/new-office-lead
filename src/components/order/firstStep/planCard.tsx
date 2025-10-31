@@ -1,6 +1,5 @@
 import { ChevronDown, ChevronUp, CircleCheck } from "lucide-react";
 import { useState } from "react";
-
 import { Button, ConfigProvider } from "antd";
 import type { Plan } from "../../../interfaces/order";
 import { formatPrice } from "../../../utils/formatPrice";
@@ -14,7 +13,7 @@ export function PlanCard({ plan, index }: { plan: Plan; index: number }) {
 
   const getPlanDetailsForCard = (planName: string) => {
     const details = {
-      Starter: [
+      Basic: [
         "E-mail comercial personalizado e seguro",
         "Videochamadas com 100 participantes",
         "30 GB de armazenamento em pool por usuário",
@@ -37,7 +36,7 @@ export function PlanCard({ plan, index }: { plan: Plan; index: number }) {
       ],
     };
 
-    return details[planName as keyof typeof details] || details["Starter"];
+    return details[planName as keyof typeof details] || details["Basic"];
   };
 
   return (

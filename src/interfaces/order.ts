@@ -25,9 +25,31 @@ export interface OrderData {
   manager_name?: string | null;
   created_at?: string;
   ordernumber?: string;
-  isVivoClient: boolean;
-  alreadyHaveMicrosoftDomain: boolean;
-  acceptContact: boolean;
-  acceptTerms: boolean;
-  plan: Plan[];
+  isVivoClient: boolean | number;
+  alreadyHaveMicrosoftDomain: boolean | number;
+  acceptContact: boolean | number;
+  acceptTerms: boolean | number;
+  plans: Plan[];
+}
+
+export interface CreateOrderData {
+  pedido: {
+    email: string;
+    cnpj: string;
+    manager_name: string;
+    managerPhone: string;
+    isVivoClient: boolean;
+    acceptContact: boolean;
+    alreadyHaveMicrosoftDomain: boolean;
+    domainName: string;
+    acceptTerms: boolean;
+    status: string;
+  };
+  itens: Array<{
+    planName: string;
+    price: string;
+    type: string;
+    users: number;
+    newPlan: boolean;
+  }>;
 }

@@ -2,10 +2,6 @@ import React from "react";
 import { ConfigProvider, Tabs } from "antd";
 import type { TabsProps } from "antd";
 
-const onChange = (key: string) => {
-  console.log(key);
-};
-
 export default function OfficeApps() {
   const EssenciaisContent = () => (
     <div className="flex flex-col gap-8">
@@ -251,7 +247,6 @@ export default function OfficeApps() {
           <Tabs
             defaultActiveKey="essenciais"
             items={items}
-            onChange={onChange}
             style={
               {
                 "--ant-color-primary": "#7c3aed",

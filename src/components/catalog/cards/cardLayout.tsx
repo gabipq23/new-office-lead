@@ -1,13 +1,13 @@
 import { Button, ConfigProvider } from "antd";
-
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CardLayout({ cardData }: { cardData: any }) {
-  const isVivoClient = sessionStorage.getItem("isVivoClient");
   const navigate = useNavigate();
+  const isVivoClient = sessionStorage.getItem("isVivoClient");
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+
   const toggleDetails = (cardType: string) => {
     setExpandedCard(expandedCard === cardType ? null : cardType);
   };

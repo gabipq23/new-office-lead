@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Input, Checkbox, ConfigProvider, Tooltip } from "antd";
+import { Button, Input, ConfigProvider, Tooltip } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { Check, CircleAlert } from "lucide-react";
 import { useOrderStore } from "../../../context/context";
@@ -15,9 +15,9 @@ export default function CompanyInfo() {
   const [hasOffice, sethasOffice] = useState(
     companyInfo.alreadyHaveMicrosoftDomain || false
   );
-  const [acceptTerms, setAcceptTerms] = useState(
-    companyInfo.acceptTerms || false
-  );
+
+  const acceptTerms = companyInfo.acceptTerms || true;
+
   const [showServices, setShowServices] = useState(false);
   const [hasTriedSubmit, setHasTriedSubmit] = useState(false);
 
@@ -69,9 +69,11 @@ export default function CompanyInfo() {
     });
 
     const updateData = {
-      domainName: domainName,
-      alreadyHaveMicrosoftDomain: hasOffice,
-      acceptTerms: acceptTerms,
+      pedido: {
+        domainName: domainName,
+        alreadyHaveMicrosoftDomain: hasOffice,
+        acceptTerms: acceptTerms,
+      },
     };
 
     try {
@@ -86,6 +88,7 @@ export default function CompanyInfo() {
       });
 
       clearOrder();
+      sessionStorage.setItem("orderStatus", "fechado");
 
       navigate(`/order/${orderId}`);
       window.scrollTo(0, 0);
@@ -144,88 +147,6 @@ export default function CompanyInfo() {
             Agora, informe os dados abaixo:
           </h1>
 
-          {/* <div className="mb-8 text-[12px]">
-            <h3 className="text-[14px] text-gray-800 mb-4">
-              Você possui G-Suite ou Workspace?
-            </h3>
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: "#f97316",
-                },
-              }}
-            >
-              <Radio.Group
-                value={hasOffice}
-                onChange={(e) => sethasOffice(e.target.value)}
-                className="flex gap-6 text-[14px]"
-              >
-                <Radio
-                  onClick={() => sethasOffice(false)}
-                  value={false}
-                  className="text-gray-700 text-[12px]"
-                >
-                  Não
-                </Radio>
-                <Radio
-                  onClick={() => sethasOffice(true)}
-                  value={true}
-                  className="text-gray-700 text-[12px]"
-                >
-                  Sim
-                </Radio>
-              </Radio.Group>
-            </ConfigProvider>
-          </div> */}
-          {/* {!hasOffice ? (
-            <>
-              <div className="bg-orange-100 border border-orange-100 rounded-lg p-2 mb-8 flex items-center">
-                <span className="text-orange-600 text-[12px] ">
-                  Inclua abaixo 2 sugestões de nome para identificação do seu
-                  domínio Google Workspace. Nós iremos avaliar a disponibilidade
-                  de uso.
-                </span>
-              </div>
-              <div className="flex w-full gap-4">
-                <div className="w-full">
-                  <label className="flex items-center gap-1  text-[12px] text-gray-600 mb-2">
-                    Sugestão 1 <span className="text-red-500">*</span>
-                  </label>
-                  <Input
-                    value={domainSuggestion1}
-                    onChange={(e) => setDomainSuggestion1(e.target.value)}
-                    size="middle"
-                    placeholder="dominio@gmail.com"
-                  />
-                  {hasTriedSubmit &&
-                    !hasOffice &&
-                    domainSuggestion1.trim() === "" && (
-                      <p className="text-red-500 text-xs mt-1">
-                        Campo obrigatório
-                      </p>
-                    )}
-                </div>
-                <div className="w-full">
-                  <label className="flex items-center gap-1  text-[12px] text-gray-600 mb-2">
-                    Sugestão 2 <span className="text-red-500">*</span>
-                  </label>
-                  <Input
-                    value={domainSuggestion2}
-                    onChange={(e) => setDomainSuggestion2(e.target.value)}
-                    size="middle"
-                    placeholder="dominio@gmail.com"
-                  />
-                  {hasTriedSubmit &&
-                    !hasOffice &&
-                    domainSuggestion2.trim() === "" && (
-                      <p className="text-red-500 text-xs mt-1">
-                        Campo obrigatório
-                      </p>
-                    )}
-                </div>
-              </div>
-            </>
-          ) : ( */}
           <>
             <div className="">
               <label className="flex items-center gap-1  text-[14px] text-gray-600 mb-2">
@@ -257,7 +178,7 @@ export default function CompanyInfo() {
             </div>
           </>
 
-          <div className="mb-8 mt-4">
+          {/* <div className="mb-8 mt-4">
             <div className="mb-8">
               <ConfigProvider
                 theme={{
@@ -281,7 +202,7 @@ export default function CompanyInfo() {
                 </p>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="fixed bottom-0 left-0 right-0 md:right-86 bg-white border-t border-gray-200 p-4 shadow-lg z-50">
