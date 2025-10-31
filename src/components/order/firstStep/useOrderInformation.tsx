@@ -21,9 +21,9 @@ interface PlanInput {
 }
 
 const PRICE_MAP = {
-  Starter: { mensal: "49,00", anual: "32,72" },
-  Standard: { mensal: "98,00", anual: "81,80" },
-  Negocios: { mensal: "154,00", anual: "128,40" },
+  Basic: { mensal: "35,00", anual: "" },
+  Standard: { mensal: "85,00", anual: "" },
+  Negocios: { mensal: "88,00", anual: "" },
 };
 
 export function useOrderInformation(
@@ -91,10 +91,10 @@ export function useOrderInformation(
 
   const handleCurrentPlanNameChange = (value: string) => {
     updateCurrentPlanInput("planName", value);
-    updateCurrentPlanInput("type", "anual");
+    updateCurrentPlanInput("type", "mensal");
     updateCurrentPlanInput(
       "price",
-      PRICE_MAP[value as keyof typeof PRICE_MAP].anual
+      PRICE_MAP[value as keyof typeof PRICE_MAP].mensal
     );
   };
 
@@ -146,10 +146,10 @@ export function useOrderInformation(
 
   const handleNewPlanNameChange = (value: string) => {
     updateNewPlanInput("planName", value);
-    updateNewPlanInput("type", "anual");
+    updateNewPlanInput("type", "mensal");
     updateNewPlanInput(
       "price",
-      PRICE_MAP[value as keyof typeof PRICE_MAP].anual
+      PRICE_MAP[value as keyof typeof PRICE_MAP].mensal
     );
   };
 

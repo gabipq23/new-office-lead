@@ -119,7 +119,7 @@ export default function AddNewPlan({
             onChange={handleNewPlanNameChange}
             className="w-full"
           >
-            <Option value="Starter">Office 365 Starter</Option>
+            <Option value="Basic">Office 365 Basic</Option>
             <Option value="Standard">Office 365 Standard</Option>
             <Option value="Negocios">Office 365 Negócios</Option>
           </Select>
@@ -192,7 +192,7 @@ export default function AddNewPlan({
             className="w-[100px]"
           >
             <Option value="mensal">Mensal</Option>
-            <Option value="anual">Anual</Option>
+            {/* <Option value="anual">Anual</Option> */}
           </Select>
           {hasTriedSubmit && !newPlanInput.type && (
             <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>

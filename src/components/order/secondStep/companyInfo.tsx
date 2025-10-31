@@ -16,7 +16,7 @@ export default function CompanyInfo() {
     companyInfo.alreadyHaveMicrosoftDomain || false
   );
   const [acceptTerms, setAcceptTerms] = useState(
-    companyInfo.acceptTerms || false
+    companyInfo.acceptTerms || true
   );
   const [showServices, setShowServices] = useState(false);
   const [hasTriedSubmit, setHasTriedSubmit] = useState(false);
@@ -177,7 +177,7 @@ export default function CompanyInfo() {
             </div>
           </>
 
-          <div className="mb-8 mt-4">
+          {/* <div className="mb-8 mt-4">
             <div className="mb-8">
               <ConfigProvider
                 theme={{
@@ -201,7 +201,7 @@ export default function CompanyInfo() {
                 </p>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="fixed bottom-0 left-0 right-0 md:right-86 bg-white border-t border-gray-200 p-4 shadow-lg z-50">
