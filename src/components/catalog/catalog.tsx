@@ -56,7 +56,7 @@ export default function Catalog() {
           title=""
           open={isModalOpen}
           footer={null}
-          width={700}
+          width={500}
           closable={false}
           maskClosable={false}
           keyboard={false}
@@ -64,7 +64,7 @@ export default function Catalog() {
           <div>
             {modalStep === 1 ? (
               <>
-                <div className="flex flex-col gap-4">
+                {/* <div className="flex flex-col gap-4">
                   <div>
                     <h1
                       style={{ margin: 0 }}
@@ -89,28 +89,14 @@ export default function Catalog() {
                     ganhe +2GB de internet por conta contratada ou migrada para
                     a Vivo.
                   </p>
-                </div>
+                </div> */}
 
-                <div className="flex items-center  justify-center gap-8 my-2">
-                  {/* <div className="flex flex-col items-center justify-center gap-4">
-                    <img
-                      src="/Google_Workspace_Logo.svg.png"
-                      className="h-5 md:h-8 hover:cursor-pointer"
-                      alt="Workspace Ofertas"
-                    />
-                    <img
-                      src="/Workspace-Icons.svg"
-                      className="h-5 md:h-6 hover:cursor-pointer"
-                      alt="Workspace Icons"
-                    />
-                  </div>
-                  <div className=" flex items-center justify-center pt-4 ">
-                    <img
-                      src="/Vivo_oferta_Workspace.png"
-                      className="h-5 md:h-26 hover:cursor-pointer "
-                      alt="Workspace Ofertas"
-                    />
-                  </div> */}
+                <div className="flex items-center justify-center gap-8 my-2 mb-6">
+                  <img
+                    src="/office-365-1.svg"
+                    className="h-5 md:h-11 hover:cursor-pointer"
+                    alt="Office"
+                  />
                 </div>
 
                 <div>
@@ -124,23 +110,33 @@ export default function Catalog() {
                     <ConfigProvider
                       theme={{
                         token: {
-                          colorPrimary: "#660099",
-                          colorText: "#660099",
-                          colorBorder: "#660099",
+                          colorText: "#ffffff",
+                          colorPrimary: "#b677d6",
+                          colorBgBase: "#660099",
                           fontSize: 18,
                         },
                       }}
                     >
                       <Button
-                        variant="outlined"
                         size="large"
-                        className=" cursor-pointer w-44"
+                        className=" cursor-pointer w-44 "
                         onClick={() => handleOfficeResponse(true)}
                       >
                         Sim
                       </Button>
+                    </ConfigProvider>
+                    <ConfigProvider
+                      theme={{
+                        token: {
+                          colorPrimary: "#a428e2",
+                          colorText: "#660099",
+                          colorBorder: "#660099",
+
+                          fontSize: 18,
+                        },
+                      }}
+                    >
                       <Button
-                        variant="outlined"
                         size="large"
                         className=" cursor-pointer  w-44"
                         onClick={() => handleOfficeResponse(false)}
@@ -153,51 +149,74 @@ export default function Catalog() {
               </>
             ) : (
               <>
+                <div className="flex flex-col gap-2 items-center justify-center  my-2 mb-6">
+                  <img
+                    src="/Vivo-Empresas.png"
+                    className="h-5 md:h-9 hover:cursor-pointer"
+                    alt="Office"
+                  />
+                  <img
+                    src="/vivo-movel.png"
+                    className="h-5 md:h-16 hover:cursor-pointer"
+                    alt="Office"
+                  />
+                </div>
+
                 <div className="flex flex-col gap-4">
                   <div>
                     <h1
                       style={{ margin: 0 }}
-                      className="text-[24px] text-center text-gray-800"
+                      className="text-[22px] text-center text-gray-800"
                     >
-                      É cliente Vivo Móvel?
+                      É cliente Vivo Empresas Móvel?
                     </h1>
                   </div>
 
-                  <p
+                  {/* <p
                     style={{ margin: 0 }}
                     className="text-[14px] text-center text-gray-600"
                   >
                     Clientes Vivo Móvel têm benefícios especiais e ganham +2GB
                     de internet por licença contratada.
-                  </p>
+                  </p> */}
                 </div>
 
                 <div className="flex gap-4 items-center justify-center my-4">
                   <ConfigProvider
                     theme={{
                       token: {
-                        colorPrimary: "#660099",
-                        colorText: "#660099",
-                        colorBorder: "#660099",
+                        colorText: "#ffffff",
+                        colorPrimary: "#b677d6",
+                        colorBgBase: "#660099",
                         fontSize: 18,
                       },
                     }}
                   >
                     <Button
-                      variant="outlined"
                       size="large"
                       className=" cursor-pointer w-44"
                       onClick={() => handleIsVivoClientResponse(true)}
                     >
-                      Sim
+                      Sim, sou cliente
                     </Button>
+                  </ConfigProvider>
+                  <ConfigProvider
+                    theme={{
+                      token: {
+                        colorPrimary: "#a428e2",
+                        colorText: "#660099",
+                        colorBorder: "#660099",
+
+                        fontSize: 18,
+                      },
+                    }}
+                  >
                     <Button
-                      variant="outlined"
                       size="large"
                       className=" cursor-pointer  w-44"
                       onClick={() => handleIsVivoClientResponse(false)}
                     >
-                      Não
+                      Não sou cliente
                     </Button>
                   </ConfigProvider>
                 </div>

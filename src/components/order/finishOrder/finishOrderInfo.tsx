@@ -18,7 +18,7 @@ export default function FinishOrderInfo() {
   const { id } = useParams<{ id: string }>();
 
   const { data: orderData, isLoading } = useOrderById(Number(id));
-  console.log(orderData);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">

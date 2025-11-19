@@ -28,10 +28,13 @@ export default function CompanyInfo() {
   const [showServices, setShowServices] = useState(false);
 
   const getTotalPrice = () => {
-    const confirmedPlansTotal = confirmedPlans.reduce((total, plan) => {
-      const numericPrice = parseFloat(plan.price.replace(",", "."));
-      return total + numericPrice * plan.users;
-    }, 0);
+    const confirmedPlansTotal = (orderData?.plans || confirmedPlans)?.reduce(
+      (total: any, plan: any) => {
+        const numericPrice = parseFloat(plan.price.replace(",", "."));
+        return total + numericPrice * plan.users;
+      },
+      0
+    );
     return confirmedPlansTotal.toFixed(2).replace(".", ",");
   };
 
@@ -53,7 +56,7 @@ export default function CompanyInfo() {
     const hasValidManagerName = managerName.trim() !== "";
     const hasValidManagerPhone = managerPhone.replace(/\D/g, "").length === 11;
     const hasValidSecondPhone = managerPhone.replace(/\D/g, "").length === 11;
-    const hasAuthorization = i_have_authorization === true;
+    // const hasAuthorization = i_have_authorization === true;
     const hasValidCpf = cpf.replace(/\D/g, "").length === 11;
 
     return (
@@ -63,8 +66,8 @@ export default function CompanyInfo() {
       hasValidManagerName &&
       hasValidManagerPhone &&
       hasValidCpf &&
-      hasValidSecondPhone &&
-      hasAuthorization
+      hasValidSecondPhone
+      // hasAuthorization
     );
   };
 
@@ -157,6 +160,7 @@ export default function CompanyInfo() {
             {/* mobile */}
             <div className="md:hidden flex ">
               <OrderResumeMobile
+                orderData={orderData}
                 confirmedPlans={confirmedPlans}
                 getTotalUsers={getTotalUsers}
                 getTotalPrice={getTotalPrice}
@@ -499,6 +503,7 @@ export default function CompanyInfo() {
             {/* desktop */}
             <div className="hidden md:flex">
               <OrderResumeDesktop
+                orderData={orderData}
                 confirmedPlans={confirmedPlans}
                 getTotalPrice={getTotalPrice}
               />

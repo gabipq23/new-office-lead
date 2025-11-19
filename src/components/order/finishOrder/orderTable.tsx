@@ -11,9 +11,10 @@ export default function OrderTable({
   confirmedPlans: Plan[];
 }) {
   const getTotalPrice = () => {
-    return confirmedPlans.reduce((total: number, plan: Plan) => {
+    const total = confirmedPlans.reduce((total: number, plan: Plan) => {
       return total + parseFloat(plan.price.replace(",", ".")) * plan?.users;
     }, 0);
+    return total.toFixed(2).replace(".", ",");
   };
 
   const getTotalUsers = () => {
@@ -72,7 +73,7 @@ export default function OrderTable({
             <p className="w-32 text-center ">{getTotalUsers()}</p>
             <p className="w-32 text-center "></p>
             <p className="w-40 text-center "></p>
-            <p className="w-40 text-center ">R$ {getTotalPrice()},00/mês</p>
+            <p className="w-40 text-center ">R$ {getTotalPrice()}/mês</p>
           </div>
         </div>
 
