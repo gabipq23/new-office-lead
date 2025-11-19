@@ -1,13 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import "./index.css";
-
 import { Routes, Route } from "react-router-dom";
 import Catalog from "./components/catalog/catalog";
-
-import FinishOrderInfo from "./components/order/finishOrder/finishOrderInfo";
-import FirstStep from "./components/order/firstStep/firstStep";
 import CompanyInfo from "./components/order/secondStep/companyInfo";
+import FirstStep from "./components/order/firstStep/firstStep";
+import FinishOrderInfo from "./components/order/finishOrder/finishOrderInfo";
+import ThirdStep from "./components/order/thirdStep/thirdStep";
 
 function App() {
   const queryClient = new QueryClient();
@@ -21,6 +20,7 @@ function App() {
             path="/client-information/:orderId"
             element={<CompanyInfo />}
           />
+          <Route path="/verify-information/:orderId" element={<ThirdStep />} />
           <Route path="/order/:id" element={<FinishOrderInfo />} />
         </Routes>
       </QueryClientProvider>

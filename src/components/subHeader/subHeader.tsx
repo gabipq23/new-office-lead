@@ -53,44 +53,31 @@ function SubHeader() {
           },
         ]
       : []),
-    {
-      key: "2",
-      label: (
-        <a
-          href="#porque-escolher"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("porque-escolher")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
-        >
-          {hasOffice === "true" ? "Como migrar" : "Porque Escolher Office 365"}
-        </a>
-      ),
-    },
+
+    ...(hasOffice === "true"
+      ? [
+          {
+            key: "2",
+            label: (
+              <a
+                href="#porque-escolher"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("porque-escolher")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
+                className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+              >
+                Como migrar
+              </a>
+            ),
+          },
+        ]
+      : []),
     {
       key: "3",
-      label: (
-        <a
-          href="#apps"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("apps")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
-        >
-          Aplicativos
-        </a>
-      ),
-    },
-    {
-      key: "4",
       label: (
         <a
           href="#beneficios"
@@ -104,6 +91,24 @@ function SubHeader() {
           className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
         >
           Benefícios
+        </a>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <a
+          href="#apps"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("apps")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }}
+          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+        >
+          Aplicativos
         </a>
       ),
     },
@@ -190,35 +195,23 @@ function SubHeader() {
               Depoimentos
             </a>
           )}
-
-          <a
-            href="#porque-escolher"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("porque-escolher")?.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }}
-            className="hover:text-[#660099]"
-          >
-            {hasOffice === "true"
-              ? "Como migrar"
-              : "Porque Escolher Office 365"}
-          </a>
-          <a
-            href="#apps"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("apps")?.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }}
-            className="hover:text-[#660099]"
-          >
-            Aplicativos
-          </a>
+          {hasOffice === "true" && (
+            <a
+              href="#porque-escolher"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("porque-escolher")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+              className="hover:text-[#660099]"
+            >
+              {hasOffice === "true"
+                ? "Como migrar"
+                : "Porque Escolher Office 365"}
+            </a>
+          )}
           <a
             href="#beneficios"
             onClick={(e) => {
@@ -231,6 +224,20 @@ function SubHeader() {
             className="hover:text-[#660099]"
           >
             Benefícios
+          </a>
+
+          <a
+            href="#apps"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("apps")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }}
+            className="hover:text-[#660099]"
+          >
+            Aplicativos
           </a>
 
           <a
@@ -260,7 +267,11 @@ function SubHeader() {
           variant="solid"
           size="middle"
           color="magenta"
-          onClick={() => navigate("/choose-plan")}
+          onClick={() => {
+            sessionStorage.setItem("currentUrl", window.location.href);
+
+            navigate("/choose-plan");
+          }}
         >
           {hasOffice === "true" ? "QUERO MIGRAR" : "CONTRATAR"}
         </Button>
@@ -276,7 +287,11 @@ function SubHeader() {
           variant="solid"
           size="middle"
           color="magenta"
-          onClick={() => navigate("/choose-plan")}
+          onClick={() => {
+            sessionStorage.setItem("currentUrl", window.location.href);
+
+            navigate("/choose-plan");
+          }}
         >
           {hasOffice === "true" ? "QUERO MIGRAR" : "CONTRATAR"}
         </Button>

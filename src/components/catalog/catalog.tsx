@@ -4,7 +4,6 @@ import Cards from "./cards/cards";
 import Header from "../header/header";
 import SubHeader from "../subHeader/subHeader";
 import Footer from "../footer/footer";
-import Payments from "./payments/payments";
 import Benefits from "./benefits/benefits";
 import OfficeApps from "./officeApps/officeApps";
 import BannerOffers from "./bannerOffers/bannerOffers";
@@ -45,26 +44,35 @@ export default function Catalog() {
         <BannerOffers />
         {hasOffice === "true" ? <Testimonials /> : <Cards />}
         <InfoAnchor />
-        <Payments />
-        <OfficeApps />
+        {/* <Payments /> */}
         <Benefits />
+        <OfficeApps />
+
         <FAQ />
         <Footer />
-
-        <Modal
-          centered
-          title=""
-          open={isModalOpen}
-          footer={null}
-          width={700}
-          closable={false}
-          maskClosable={false}
-          keyboard={false}
+        <ConfigProvider
+          theme={{
+            components: {
+              Modal: {
+                colorBgMask: "rgba(0, 0, 0, 0.8)",
+              },
+            },
+          }}
         >
-          <div>
-            {modalStep === 1 ? (
-              <>
-                <div className="flex flex-col gap-4">
+          <Modal
+            centered
+            title=""
+            open={isModalOpen}
+            footer={null}
+            width={500}
+            closable={false}
+            maskClosable={false}
+            keyboard={false}
+          >
+            <div>
+              {modalStep === 1 ? (
+                <>
+                  {/* <div className="flex flex-col gap-4">
                   <div>
                     <h1
                       style={{ margin: 0 }}
@@ -89,37 +97,94 @@ export default function Catalog() {
                     ganhe +2GB de internet por conta contratada ou migrada para
                     a Vivo.
                   </p>
-                </div>
+                </div> */}
 
-                <div className="flex items-center  justify-center gap-8 my-2">
-                  {/* <div className="flex flex-col items-center justify-center gap-4">
+                  <div className="flex flex-col  items-center justify-center gap-4 my-2 mb-6">
                     <img
-                      src="/Google_Workspace_Logo.svg.png"
-                      className="h-5 md:h-8 hover:cursor-pointer"
-                      alt="Workspace Ofertas"
+                      src="/office-365-1.svg"
+                      className="h-5 md:h-13 hover:cursor-pointer"
+                      alt="Office"
                     />
                     <img
-                      src="/Workspace-Icons.svg"
-                      className="h-5 md:h-6 hover:cursor-pointer"
-                      alt="Workspace Icons"
+                      src="/icones-office.png"
+                      className="h-5 md:h-16 hover:cursor-pointer"
+                      alt="Office"
                     />
                   </div>
-                  <div className=" flex items-center justify-center pt-4 ">
-                    <img
-                      src="/Vivo_oferta_Workspace.png"
-                      className="h-5 md:h-26 hover:cursor-pointer "
-                      alt="Workspace Ofertas"
-                    />
-                  </div> */}
-                </div>
 
-                <div>
-                  <p
+                  <div>
+                    <p
+                      style={{ margin: 0 }}
+                      className="text-[24px] text-center text-gray-800"
+                    >
+                      Você já possui conta Office 365?
+                    </p>
+                    <div className="flex gap-4 items-center justify-center my-4">
+                      <ConfigProvider
+                        theme={{
+                          token: {
+                            colorPrimary: "#660099",
+                            colorText: "#660099",
+                            colorBorder: "#660099",
+                            fontSize: 16,
+                            colorPrimaryHover: "#9933cc",
+                          },
+                        }}
+                      >
+                        <Button
+                          type="primary"
+                          size="large"
+                          className=" cursor-pointer w-44 "
+                          onClick={() => handleOfficeResponse(true)}
+                        >
+                          Sim
+                        </Button>
+
+                        <Button
+                          size="large"
+                          className=" cursor-pointer  w-44"
+                          onClick={() => handleOfficeResponse(false)}
+                        >
+                          Não
+                        </Button>
+                      </ConfigProvider>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex flex-col gap-4 items-center justify-center  my-2 mb-6">
+                    <img
+                      src="/Vivo-Empresas.png"
+                      className="h-5 md:h-9 hover:cursor-pointer"
+                      alt="Office"
+                    />
+                    <img
+                      src="/vivo-movel.png"
+                      className="h-5 md:h-16 hover:cursor-pointer"
+                      alt="Office"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-4">
+                    <div>
+                      <h1
+                        style={{ margin: 0 }}
+                        className="text-[22px] text-center text-gray-800"
+                      >
+                        É cliente Vivo Empresas Móvel?
+                      </h1>
+                    </div>
+
+                    {/* <p
                     style={{ margin: 0 }}
-                    className="text-[24px] text-center text-gray-800"
+                    className="text-[14px] text-center text-gray-600"
                   >
-                    Você já possui conta Office 365?
-                  </p>
+                    Clientes Vivo Móvel têm benefícios especiais e ganham +2GB
+                    de internet por licença contratada.
+                  </p> */}
+                  </div>
+
                   <div className="flex gap-4 items-center justify-center my-4">
                     <ConfigProvider
                       theme={{
@@ -127,84 +192,34 @@ export default function Catalog() {
                           colorPrimary: "#660099",
                           colorText: "#660099",
                           colorBorder: "#660099",
-                          fontSize: 18,
+                          fontSize: 16,
+                          colorPrimaryHover: "#9933cc",
                         },
                       }}
                     >
                       <Button
-                        variant="outlined"
+                        type="primary"
                         size="large"
                         className=" cursor-pointer w-44"
-                        onClick={() => handleOfficeResponse(true)}
+                        onClick={() => handleIsVivoClientResponse(true)}
                       >
-                        Sim
+                        Sim, sou cliente
                       </Button>
+
                       <Button
-                        variant="outlined"
                         size="large"
                         className=" cursor-pointer  w-44"
-                        onClick={() => handleOfficeResponse(false)}
+                        onClick={() => handleIsVivoClientResponse(false)}
                       >
-                        Não
+                        Não sou cliente
                       </Button>
                     </ConfigProvider>
                   </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex flex-col gap-4">
-                  <div>
-                    <h1
-                      style={{ margin: 0 }}
-                      className="text-[24px] text-center text-gray-800"
-                    >
-                      É cliente Vivo?
-                    </h1>
-                  </div>
-
-                  <p
-                    style={{ margin: 0 }}
-                    className="text-[14px] text-center text-gray-600"
-                  >
-                    Clientes Vivo têm benefícios especiais e ganham +2GB de
-                    internet por conta contratada.
-                  </p>
-                </div>
-
-                <div className="flex gap-4 items-center justify-center my-4">
-                  <ConfigProvider
-                    theme={{
-                      token: {
-                        colorPrimary: "#660099",
-                        colorText: "#660099",
-                        colorBorder: "#660099",
-                        fontSize: 18,
-                      },
-                    }}
-                  >
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      className=" cursor-pointer w-44"
-                      onClick={() => handleIsVivoClientResponse(true)}
-                    >
-                      Sim
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      className=" cursor-pointer  w-44"
-                      onClick={() => handleIsVivoClientResponse(false)}
-                    >
-                      Não
-                    </Button>
-                  </ConfigProvider>
-                </div>
-              </>
-            )}
-          </div>
-        </Modal>
+                </>
+              )}
+            </div>
+          </Modal>
+        </ConfigProvider>
       </QueryClientProvider>
     </>
   );

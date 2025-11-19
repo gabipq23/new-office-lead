@@ -35,13 +35,13 @@ function Banner() {
                 style={{ lineHeight: "1.0", margin: 0 }}
                 className="text-[23px] md:text-[28px] lg:text-[28px] text-[#f7f7f7] "
               >
-                Migre sua conta Office 365
+                MIGRE SUA CONTA OFFICE 365
               </p>
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
                 className="text-[23px] mdtext-[28px] lg:text-[28px] text-[#f7f7f7] "
               >
-                através da Vivo e ganhe benefícios
+                PRA VIVO E TENHA BENEFÍCIOS
               </p>
             </>
           ) : (
@@ -65,24 +65,27 @@ function Banner() {
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
                 className="text-[10px] md:text-[20px] lg:text-[26px] text-[#f7f7f7] "
-              ></p>
+              >
+                {" "}
+                Garanta esta oferta por tempo limitado
+              </p>
             </>
           ) : (
             <>
               <p
                 style={{ lineHeight: "1.0", margin: 0 }}
-                className="text-[10px] md:text-[14px] lg:text-[18px] text-[#f7f7f7] "
+                className="text-[10px] md:text-[16px] lg:text-[22px] text-[#f7f7f7] "
               >
-                A partir de R$49 por mês
+                A partir de R$49,00/mês
               </p>
             </>
           )}
         </div>
 
-        <div className="mx-2 md:mx-16 lg:mx-24 ">
+        <div className="mx-4 md:mx-20 lg:mx-28  ">
           <img
             src="/oferta_new_7.png"
-            className="w-48 sm:w-48 md:w-64 lg:w-76 h-auto object-contain"
+            className=" w-56 sm:w-60 md:w-70 lg:w-80 h-auto object-contain"
             alt="Microsoft 365"
           />
         </div>
@@ -98,7 +101,10 @@ function Banner() {
             variant="solid"
             size="large"
             color="magenta"
-            onClick={() => navigate("/choose-plan")}
+            onClick={() => {
+              sessionStorage.setItem("currentUrl", window.location.href);
+              navigate("/choose-plan");
+            }}
           >
             {hasOffice === "true" ? "QUERO MIGRAR" : "CONTRATE AGORA"}
           </Button>

@@ -2,16 +2,45 @@ import { Button, ConfigProvider } from "antd";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useOrderStore } from "../../../context/context";
 
 export default function CardLayout({ cardData }: { cardData: any }) {
   const navigate = useNavigate();
-  const isVivoClient = sessionStorage.getItem("isVivoClient");
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
   const toggleDetails = (cardType: string) => {
     setExpandedCard(expandedCard === cardType ? null : cardType);
   };
+  const { setSelectedPlan, confirmedPlans, setConfirmedPlans } =
+    useOrderStore();
 
+  const handlePlanSelection = (cardData: any) => {
+    const type = "mensal";
+
+    const price = cardData?.price;
+
+    const newPlan = {
+      id: Date.now().toString(),
+      planName: cardData?.title,
+      price: price,
+      users: 1,
+      type: type as "mensal" | "anual",
+      newPlan: true,
+    };
+
+    setConfirmedPlans([...confirmedPlans, newPlan]);
+
+    setSelectedPlan({
+      planName: cardData?.title,
+      price: cardData?.price,
+      priceYear: cardData?.priceYear,
+      servicesIncluded: [],
+    });
+
+    navigate("/choose-plan");
+    window.scrollTo(0, 0);
+  };
   return (
     <>
       <div className="flex flex-col w-full items-center relative">
@@ -22,65 +51,14 @@ export default function CardLayout({ cardData }: { cardData: any }) {
             {cardData.badge}
           </div>
         )}
-        <div className="flex w-full max-w-[260px] flex-col border border-gray-300 rounded-sm bg-white shadow-sm">
+        <div className="flex w-full min-w-[230px] max-w-[260px] flex-col border border-gray-300 rounded-sm bg-white shadow-sm">
           <div className=" flex flex-col gap-2">
             <div className="text-start pt-6 px-4">
-              <p style={{ margin: 0 }} className=" text-[14px] ">
+              <p style={{ margin: 0 }} className=" text-[16px] ">
                 {cardData.subtitle}
               </p>
-              <h3 className="text-[28px]  ">{cardData.title}</h3>
+              <h3 className="text-[32px]  ">{cardData.title}</h3>
             </div>
-
-            {/* <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: "#660099",
-                },
-              }}
-            >
-              <div className="px-4  flex text-start flex-col gap-2">
-                <Radio.Group
-                  value={selectedClientType}
-                  onChange={(e) => setSelectedClientType(e.target.value)}
-                  className="flex flex-col gap-2"
-                >
-                  <div className="flex items-start">
-                    <Radio
-                      value="cliente"
-                      style={{
-                        color: "#660099",
-                      }}
-                    />
-                    <div className="flex flex-col">
-                      <p
-                        style={{ margin: 0 }}
-                        className="text-gray-700  text-[12px] "
-                      >
-                        {cardData.clientType}
-                      </p>
-                      <p className="text-gray-600 text-[10px]">
-                        {cardData.storage}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center text-start ">
-                    <Radio
-                      value="nao-cliente"
-                      style={{
-                        color: "#660099",
-                      }}
-                    />
-                    <p
-                      style={{ margin: 0 }}
-                      className="text-gray-700  text-[12px] "
-                    >
-                      {cardData.nonClientType}
-                    </p>
-                  </div>
-                </Radio.Group>
-              </div>
-            </ConfigProvider> */}
 
             <div className="mx-4 mb-3 flex flex-col items-start bg-[#f0f0f0] p-3 px-2 text-start rounded text-[14px]">
               <p style={{ margin: 0 }} className=" text-[11px] ">
@@ -104,24 +82,24 @@ export default function CardLayout({ cardData }: { cardData: any }) {
 
             <div className="flex flex-col items-start gap-1 mx-4">
               <p style={{ margin: 0 }} className=" text-[20px] text-gray-900">
-                R${" "}
-                {isVivoClient === "true"
-                  ? cardData.priceClient
-                  : cardData.priceNonClient}{" "}
+                R$ {cardData.priceClient}
                 <span className="text-[20px] text-gray-600">/mês</span>
               </p>
-              <p className="text-[10px] text-gray-600">por usuário</p>
+              <p className="text-gray-600 text-[12px]">por usuário</p>
             </div>
 
             <Button
-              className="self-center"
-              style={{ width: "160px", height: "50px" }}
+              className="self-center mb-4 mx-6 w-56"
+              style={{ width: "140px", height: "50px" }}
               variant="solid"
               size="large"
               color="magenta"
-              onClick={() => (navigate("/choose-plan"), window.scrollTo(0, 0))}
+              onClick={() => {
+                sessionStorage.setItem("currentUrl", window.location.href);
+                handlePlanSelection(cardData);
+              }}
             >
-              CONTRATAR
+              {hasOffice === "true" ? "Migrar" : "Contratar"}
             </Button>
             <ConfigProvider
               theme={{

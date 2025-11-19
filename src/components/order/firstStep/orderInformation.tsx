@@ -1,227 +1,186 @@
-import { Button, Checkbox, ConfigProvider, Input } from "antd";
-
-import { CNPJInput, PhoneInput } from "../../../utils/input";
-
+import {
+  Button,
+  Collapse,
+  ConfigProvider,
+  Modal,
+  type CollapseProps,
+} from "antd";
 import { useOrderInformation } from "./useOrderInformation";
 import AddOlderPlan from "./addOlderPlan";
 import AddNewPlan from "./addNewPlan";
+import { useState } from "react";
 
-interface OrderInformationProps {
-  basicInfo: {
-    cnpj: string;
-    email: string;
-    manager_name: string;
-    managerPhone: string;
-    isVivoClient: boolean;
-    acceptContact: boolean;
-  };
-  updateBasicInfo: (info: Partial<OrderInformationProps["basicInfo"]>) => void;
-}
-
-export default function OrderInformation({
-  basicInfo,
-  updateBasicInfo,
-}: OrderInformationProps) {
+export default function OrderInformation() {
   const {
-    currentPlanInput,
-    newPlanInput,
-    cnpj,
-    email,
-    managerName,
-    managerPhone,
-    acceptContact,
     hasTriedSubmit,
+    handleSubmit,
     confirmedPlans,
-    isCreatingOrderLoading,
-    hasOffice,
-    setCnpj,
-    setEmail,
-    setManagerName,
-    setManagerPhone,
-    setAcceptContact,
-    handleCurrentPlanNameChange,
-    handleCurrentTypeChange,
+    removePlan,
+    currentPlanInput,
+    updateCurrentPlanInput,
     handleCurrentUserIncrease,
     handleCurrentUserDecrease,
     addCurrentPlan,
-    handleNewPlanNameChange,
-    handleNewTypeChange,
+    newPlanInput,
+    updateNewPlanInput,
     handleNewUserIncrease,
     handleNewUserDecrease,
     addNewPlan,
-    removePlan,
-    handleSubmit,
-  } = useOrderInformation(basicInfo, updateBasicInfo);
+    isCreatingOrderLoading,
+    alreadyHaveMicrosoftDomain,
+  } = useOrderInformation();
+  const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAddNewPlan, setShowAddNewPlan] = useState(false);
+  const [modalAlreadyShown, setModalAlreadyShown] = useState(false);
+  const [activeCollapseKeys, setActiveCollapseKeys] = useState<string[]>(
+    hasOffice === "true" ? ["old"] : ["new"]
+  );
 
+  const collapseItems: CollapseProps["items"] = [];
+  if (hasOffice === "true") {
+    collapseItems.push({
+      key: "old",
+      label: (
+        <h2
+          style={{ margin: 0, padding: 0, fontWeight: "bold" }}
+          className="  text-neutral-700 "
+        >
+          Planos Atuais
+        </h2>
+      ),
+      children: (
+        <AddOlderPlan
+          hasOffice="true"
+          confirmedPlans={confirmedPlans}
+          removePlan={removePlan}
+          currentPlanInput={currentPlanInput}
+          updateCurrentPlanInput={updateCurrentPlanInput}
+          handleCurrentUserIncrease={handleCurrentUserIncrease}
+          handleCurrentUserDecrease={handleCurrentUserDecrease}
+          addCurrentPlan={addCurrentPlan}
+          hasTriedSubmit={hasTriedSubmit}
+        />
+      ),
+    });
+  }
+  if (showAddNewPlan) {
+    collapseItems.push({
+      key: "new",
+      label: (
+        <h2
+          style={{ margin: 0, padding: 0, fontWeight: "bold" }}
+          className="  text-neutral-700 "
+        >
+          Novos Planos
+        </h2>
+      ),
+      children: (
+        <AddNewPlan
+          hasOffice={alreadyHaveMicrosoftDomain ? "true" : "false"}
+          confirmedPlans={confirmedPlans}
+          newPlanInput={newPlanInput}
+          updateNewPlanInput={updateNewPlanInput}
+          handleNewUserDecrease={handleNewUserDecrease}
+          handleNewUserIncrease={handleNewUserIncrease}
+          addNewPlan={addNewPlan}
+          removePlan={removePlan}
+          hasTriedSubmit={hasTriedSubmit}
+        />
+      ),
+    });
+  }
   return (
     <>
-      <div className="flex flex-col flex-1 px-8 pt-2  justify-between bg-[#f7f7f7] h-[calc(100vh-60px)] overflow-y-auto scrollbar-thin ">
-        <div>
-          <div className="flex flex-col gap-4 lg:flex-row items-center justify-between mb-8">
-            <img src="/Vivo-Empresas.png" alt="Vivo Empresas" className="h-7" />
-
-            <div className="flex items-center gap-2">
-              <div className="flex flex-col gap-1 items-center">
-                <div className="w-6 h-6 bg-[#f7f7f7] border-1 border-[#660099] text-[#660099] rounded-full flex items-center justify-center text-[12px] font-semibold">
-                  1
-                </div>
-                <span className="text-[12px] text-[#660099] font-medium">
-                  Produto
-                </span>
+      <div className="flex flex-col flex-1 px-8 pb-4 pt-2 justify-between bg-[#f7f7f7] h-[calc(100vh-200px)] mb-20 overflow-y-auto scrollbar-thin">
+        <div className="mb-12">
+          <div
+            className="flex items-center px-8 mb-2 justify-center gap-2 w-full max-w-[520px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px] 2xl:max-w-[900px] mx-auto"
+            style={{ minWidth: 0 }}
+          >
+            <div className="flex flex-col gap-1 items-center min-w-0">
+              <div className="w-8 h-8 bg-[#660099] border-1 border-[#660099] text-white rounded-full flex items-center justify-center text-[16px] font-semibold">
+                1
               </div>
-              <div className="w-8 h-px bg-[#660099] mt-[-12px]"></div>
+              <span className="text-[16px] text-[#660099] font-medium">
+                Planos
+              </span>
+            </div>
 
-              {hasOffice !== true && (
+            <div className="h-px bg-[#660099] mt-[-12px] flex-1 max-w-[80px] md:max-w-[120px] lg:max-w-[160px]"></div>
+
+            <div className="flex flex-col gap-1 items-center min-w-0">
+              <div className="w-8 h-8 bg-[#f7f7f7] border-1 border-[#660099] text-[#660099] rounded-full flex items-center justify-center text-[16px] font-semibold">
+                2
+              </div>
+              <span className="text-[16px] text-[#660099]">Dados</span>
+            </div>
+            <div className="h-px bg-[#660099] mt-[-12px] flex-1 max-w-[80px] md:max-w-[120px] lg:max-w-[160px]"></div>
+
+            <div className="flex flex-col gap-1 items-center min-w-0">
+              <div className="w-8 h-8 bg-[#f7f7f7] border-1 border-[#660099] text-[#660099] rounded-full flex items-center justify-center text-[16px] font-semibold">
+                3
+              </div>
+              <span className="text-[16px] text-[#660099]">Verificação</span>
+            </div>
+          </div>
+
+          <div className="bg-white p-3  rounded-2xl">
+            <h1
+              style={{ paddingInline: 16 }}
+              className="text-[20px] px-8 font-normal text-[#660099]"
+            >
+              Olá! Vamos iniciar o seu pedido{" "}
+              {hasOffice === "true" ? "de migração" : ""} online :)
+            </h1>
+
+            <div className="bg-orange-100 mx-4 border border-orange-100 rounded-lg p-2  flex items-center">
+              <span className="text-orange-600 text-[12px] mr-2">🎁</span>
+              <span className="text-orange-600 text-[12px]">
+                <strong>Aproveite agora!</strong> Clientes Móvel Vivo Empresas
+                ganham +2GB na contratação de Office 365
+              </span>
+            </div>
+
+            <div style={{ margin: 0, padding: 0 }} className="mb-8 ">
+              {hasOffice === "true" ? (
                 <>
-                  <div className="flex flex-col gap-1 items-center">
-                    <div className="w-6 h-6 bg-[#f7f7f7] border-1 border-gray-400 text-gray-500 rounded-full flex items-center justify-center text-[12px] font-semibold">
-                      2
-                    </div>
-                    <span className="text-[12px] text-gray-400">Dados</span>
-                  </div>
-                  <div className="w-8 h-px bg-gray-300 mt-[-12px]"></div>
+                  {" "}
+                  <Collapse
+                    size="large"
+                    items={collapseItems}
+                    ghost
+                    activeKey={activeCollapseKeys}
+                    onChange={(keys) => {
+                      if (Array.isArray(keys)) {
+                        setActiveCollapseKeys(keys as string[]);
+                      } else if (typeof keys === "string") {
+                        setActiveCollapseKeys([keys]);
+                      }
+                    }}
+                  />
                 </>
-              )}
-
-              <div className="flex flex-col gap-1 items-center">
-                <div className="w-6 h-6 bg-[#f7f7f7] border-1 border-gray-400 text-gray-500 rounded-full flex items-center justify-center text-[12px] font-semibold">
-                  {hasOffice === true ? 2 : 3}
+              ) : (
+                <div className="px-4 pt-4">
+                  <AddNewPlan
+                    hasOffice={alreadyHaveMicrosoftDomain ? "true" : "false"}
+                    confirmedPlans={confirmedPlans}
+                    newPlanInput={newPlanInput}
+                    updateNewPlanInput={updateNewPlanInput}
+                    handleNewUserDecrease={handleNewUserDecrease}
+                    handleNewUserIncrease={handleNewUserIncrease}
+                    addNewPlan={addNewPlan}
+                    removePlan={removePlan}
+                    hasTriedSubmit={hasTriedSubmit}
+                  />
                 </div>
-                <span className="text-[12px] text-gray-400">Confirmação</span>
-              </div>
-            </div>
-          </div>
-
-          <h1 className="text-[18px] font-normal text-[#660099] ">
-            Olá! Vamos iniciar o seu pedido{" "}
-            {hasOffice === true ? "de migração" : ""} online :)
-          </h1>
-
-          <div className="bg-orange-100 border border-orange-100 rounded-lg p-2 mb-4 flex items-center">
-            <span className="text-orange-600 text-[12px] mr-2">🎁</span>
-            <span className="text-orange-600 text-[12px] ">
-              <strong>Aproveite agora!</strong> Clientes Móvel Vivo Empresas
-              ganham +2GB na contratação de Office 365
-            </span>
-          </div>
-
-          <div className="mb-8">
-            {/* plano antigo */}
-            <AddOlderPlan
-              hasOffice={hasOffice}
-              confirmedPlans={confirmedPlans}
-              removePlan={removePlan}
-              handleCurrentPlanNameChange={handleCurrentPlanNameChange}
-              handleCurrentUserDecrease={handleCurrentUserDecrease}
-              handleCurrentUserIncrease={handleCurrentUserIncrease}
-              handleCurrentTypeChange={handleCurrentTypeChange}
-              addCurrentPlan={addCurrentPlan}
-              currentPlanInput={currentPlanInput}
-              hasTriedSubmit={hasTriedSubmit}
-            />
-
-            {/* plano novo */}
-            <AddNewPlan
-              hasOffice={hasOffice}
-              confirmedPlans={confirmedPlans}
-              removePlan={removePlan}
-              addNewPlan={addNewPlan}
-              newPlanInput={newPlanInput}
-              hasTriedSubmit={hasTriedSubmit}
-              handleNewPlanNameChange={handleNewPlanNameChange}
-              handleNewTypeChange={handleNewTypeChange}
-              handleNewUserIncrease={handleNewUserIncrease}
-              handleNewUserDecrease={handleNewUserDecrease}
-            />
-
-            <div className="flex justify-start max-w-[800px] flex-wrap  gap-2 mb-6">
-              <div className=" w-[160px] ">
-                <label className="block text-[12px] text-gray-600 mb-2">
-                  CNPJ <span className="text-red-500">*</span>
-                </label>
-                <CNPJInput
-                  format="##.###.###/####-##"
-                  value={cnpj}
-                  onValueChange={(values) => setCnpj(values.value)}
-                />
-                {hasTriedSubmit && cnpj.replace(/\D/g, "").length !== 14 && (
-                  <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
-                )}
-              </div>
-
-              <div className=" w-[200px] ">
-                <label className="block text-[12px] text-gray-600 mb-2">
-                  E-mail <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  size="middle"
-                  placeholder="Informe seu e-mail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {hasTriedSubmit &&
-                  !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && (
-                    <p className="text-red-500 text-xs mt-1">
-                      Campo obrigatório
-                    </p>
-                  )}
-              </div>
-
-              <div className=" w-[150px] ">
-                <label className="block text-[12px] text-gray-600 mb-2">
-                  Nome do Gestor <span className="text-red-500">*</span>
-                </label>
-                <Input
-                  size="middle"
-                  placeholder="Informe o nome do gestor"
-                  value={managerName}
-                  onChange={(e) => setManagerName(e.target.value)}
-                />
-                {hasTriedSubmit && managerName.trim() === "" && (
-                  <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
-                )}
-              </div>
-              <div className=" w-[140px] ">
-                <label className="block text-[12px] text-gray-600 mb-2">
-                  Telefone <span className="text-red-500">*</span>
-                </label>
-                <PhoneInput
-                  format="(##) #####-####"
-                  value={managerPhone}
-                  onValueChange={(values) => setManagerPhone(values.value)}
-                />
-                {hasTriedSubmit &&
-                  managerPhone.replace(/\D/g, "").length !== 11 && (
-                    <p className="text-red-500 text-xs mt-1">
-                      Campo obrigatório
-                    </p>
-                  )}
-              </div>
-            </div>
-
-            <div className="mb-20 md:mb-10">
-              <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: "#f97316",
-                  },
-                }}
-              >
-                <Checkbox
-                  checked={acceptContact}
-                  onChange={(e) => setAcceptContact(e.target.checked)}
-                  className="text-gray-600"
-                >
-                  Autorizo ser contatado pelo telefone e e-mail preenchidos,
-                  para receber informações sobre o meu pedido.
-                </Checkbox>
-              </ConfigProvider>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 md:right-86 bg-white border-t border-gray-200 p-4 shadow-lg z-50">
-          <div className="flex justify-end max-w-7xl mx-auto">
+        <div className="fixed bottom-0 left-0 pr-8 right-0 bg-white border-t border-gray-200 p-4  shadow-lg z-50">
+          <div className="flex justify-center lg:justify-end  lg:mx-auto">
             <ConfigProvider
               theme={{
                 token: {
@@ -231,24 +190,91 @@ export default function OrderInformation({
             >
               <Button
                 type="primary"
+                style={{
+                  borderRadius: 20,
+
+                  height: 44,
+                  fontSize: "20px",
+                }}
                 size="large"
-                onClick={handleSubmit}
-                loading={isCreatingOrderLoading}
-                disabled={isCreatingOrderLoading}
-                className="self-end"
+                className="self-end w-full md:max-w-[600px] lg:max-w-[200px]"
+                onClick={() => {
+                  if (
+                    !modalAlreadyShown &&
+                    hasOffice === "true" &&
+                    !showAddNewPlan
+                  ) {
+                    setIsModalOpen(true);
+                    setModalAlreadyShown(true);
+                  } else {
+                    handleSubmit();
+                  }
+                }}
               >
-                {isCreatingOrderLoading
-                  ? hasOffice === true
-                    ? "Concluindo pedido..."
-                    : "Criando pedido..."
-                  : hasOffice === true
-                  ? "Concluir pedido"
-                  : "Continuar"}
+                Avançar
               </Button>
             </ConfigProvider>
           </div>
         </div>
       </div>
+
+      {/* Modal para perguntar se quer adicionar novos planos */}
+      {isModalOpen && (
+        <Modal
+          open={isModalOpen}
+          closable={false}
+          footer={null}
+          centered
+          width={480}
+        >
+          <div className="text-center flex flex-col gap-4">
+            <h2 className="text-[#660099] text-2xl font-bold">
+              Deseja aproveitar para adicionar
+              <br />
+              novos planos?
+            </h2>
+
+            <div className="flex justify-center gap-6">
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: "#660099",
+                    colorText: "#660099",
+                    colorBorder: "#660099",
+                    fontSize: 16,
+                    colorPrimaryHover: "#9933cc",
+                  },
+                }}
+              >
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setShowAddNewPlan(true);
+                    setActiveCollapseKeys(["new"]);
+                  }}
+                >
+                  Sim
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    handleSubmit();
+                  }}
+                  loading={isCreatingOrderLoading}
+                  disabled={isCreatingOrderLoading}
+                  className="self-end"
+                >
+                  Não
+                </Button>
+              </ConfigProvider>
+            </div>
+          </div>
+        </Modal>
+      )}
     </>
   );
 }

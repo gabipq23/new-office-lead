@@ -4,52 +4,69 @@ import { formatPrice } from "../../../utils/formatPrice";
 import type { Plan } from "../../../interfaces/order";
 const { Option } = Select;
 export default function AddNewPlan({
-  hasOffice,
-  newPlanInput,
-  handleNewPlanNameChange,
-  handleNewTypeChange,
-  handleNewUserIncrease,
-  handleNewUserDecrease,
-  addNewPlan,
   confirmedPlans,
-  hasTriedSubmit,
+  newPlanInput,
+  updateNewPlanInput,
+  handleNewUserDecrease,
+  handleNewUserIncrease,
+  addNewPlan,
   removePlan,
+  hasTriedSubmit,
 }: any) {
+  const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
+
   return (
-    <>
-      <h2>{hasOffice === true && "Novos Planos"}</h2>
-      <h3 className="flex  items-center gap-2 text-[14px] text-gray-800 mb-4">
-        {hasOffice === true
-          ? "Deseja aproveitar para adicionar novos planos?"
-          : "Defina seus planos"}{" "}
-        {}
-        <Tooltip title="Você pode escolher 1 ou mais planos.">
-          <span className="text-gray-500 cursor-pointer">
-            <CircleAlert size={14} />
-          </span>
-        </Tooltip>
-      </h3>
+    <div className=" mb-16  ">
+      {hasOffice === "false" ? (
+        <h2
+          style={{
+            margin: 0,
+            padding: 0,
+            fontWeight: "bold",
+            marginBottom: 8,
+            marginTop: 8,
+          }}
+          className="  flex   items-center gap-2 text-[16px] text-gray-700 mb-4 "
+        >
+          Defina seus planos{" "}
+          <Tooltip title="Você pode escolher 1 ou mais planos.">
+            <span className="text-gray-500 cursor-pointer">
+              <CircleAlert size={14} />
+            </span>
+          </Tooltip>
+        </h2>
+      ) : (
+        <h3 className="flex  items-center gap-2 text-[15px] text-gray-800 mb-4">
+          {" "}
+          Deseja aproveitar para adicionar novos planos?{" "}
+          <Tooltip title="Você pode escolher 1 ou mais planos.">
+            <span className="text-gray-500 cursor-pointer">
+              <CircleAlert size={14} />
+            </span>
+          </Tooltip>
+        </h3>
+      )}
 
       {confirmedPlans
         ?.filter((plan: Plan) => plan.newPlan === true)
         ?.map((plan: Plan, index: number) => (
           <div
             key={plan?.id}
-            className="flex flex-wrap justify-start gap-2 mb-1 max-w-[800px] bg-green-50 py-2 rounded-r-md"
+            className="flex flex-wrap justify-start gap-2 mb-1  max-w-[800px] bg-green-50 py-2 rounded-r-md"
           >
             <div className="w-[160px]">
-              <label className="block text-[12px] text-gray-600 mb-2">
+              <label className="block text-[13px] text-gray-600 mb-2">
                 Plano {index + 1}
               </label>
               <div className="h-8 px-3 py-1 border border-gray-300 rounded-md bg-white flex items-center">
                 <span className="text-gray-700 text-[13px]">
-                  Office 365 {plan?.planName}
+                  Business {plan?.planName}
                 </span>
               </div>
             </div>
 
             <div className="w-[120px]">
-              <label className="block text-[12px] text-gray-600 mb-2">
+              <label className="block text-[13px] text-gray-600 mb-2">
                 Quant. de Usuários
               </label>
               <div className="h-8 px-3 py-1 border border-gray-300 rounded-md bg-white flex items-center justify-center">
@@ -58,7 +75,7 @@ export default function AddNewPlan({
             </div>
 
             <div className="w-[100px]">
-              <label className="block text-[12px] text-gray-600 mb-2">
+              <label className="block text-[13px] text-gray-600 mb-2">
                 Modalidade
               </label>
               <div className="h-8 px-3 py-1 border border-gray-300 rounded-md bg-white flex items-center">
@@ -69,7 +86,7 @@ export default function AddNewPlan({
             </div>
 
             <div className="w-[260px]">
-              <label className="block text-[12px] text-gray-600 mb-2">
+              <label className="block text-[13px] text-gray-600 mb-2">
                 Valor Total
               </label>
               <div className="flex gap-2">
@@ -78,12 +95,6 @@ export default function AddNewPlan({
                     R$ {formatPrice(plan?.price, plan?.users)}/
                     {plan?.type === "anual" ? "mês" : "mês"}
                   </span>{" "}
-                  {plan?.type === "anual" && (
-                    <span className="bg-green-600 text-white rounded-md p-1.5 text-[14px]">
-                      {" "}
-                      - 33%
-                    </span>
-                  )}
                 </div>
                 <Button
                   size="middle"
@@ -107,29 +118,50 @@ export default function AddNewPlan({
 
       <div className="flex max-w-[800px] flex-wrap justify-start gap-2 mb-6">
         <div className="w-[160px]">
-          <label className="block text-[12px] text-gray-600 mb-2">
+          <label className="flex items-center gap-1  text-[13px] text-gray-600 mb-2">
             Plano{" "}
             {confirmedPlans.filter((plan: Plan) => plan.newPlan === true)
-              .length + 1}{" "}
-            <span className="text-red-500">*</span>
+              .length + 1}
+            {hasOffice === "false" &&
+              confirmedPlans.filter((plan: Plan) => plan.newPlan === true)
+                .length === 0 && <span className="text-red-500">*</span>}
           </label>
           <Select
             size="middle"
             value={newPlanInput?.planName || undefined}
-            onChange={handleNewPlanNameChange}
+            onChange={(value) => {
+              const priceMap = {
+                Basic: { mensal: "31,23", anual: "0" },
+                Standard: { mensal: "80,90", anual: "0" },
+                Negócios: { mensal: "73,00", anual: "0" },
+              };
+              updateNewPlanInput("planName", value);
+              updateNewPlanInput("type", "mensal");
+              updateNewPlanInput(
+                "price",
+                priceMap[value as keyof typeof priceMap].mensal
+              );
+            }}
             className="w-full"
           >
-            <Option value="Basic">Office 365 Basic</Option>
-            <Option value="Standard">Office 365 Standard</Option>
-            <Option value="Negocios">Office 365 Negócios</Option>
+            <Option value="Basic">Business Basic</Option>
+            <Option value="Standard">Business Standard</Option>
+            <Option value="Negocios">Apps para Negócios</Option>
           </Select>
-          {hasTriedSubmit && !newPlanInput?.planName && (
-            <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
-          )}
+          {hasTriedSubmit &&
+            !newPlanInput?.planName &&
+            hasOffice === "false" &&
+            confirmedPlans.filter((plan: Plan) => plan.newPlan === true)
+              .length === 0 && (
+              <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
+            )}
         </div>
-        <div className="w-[120px]">
-          <label className="block text-[12px] text-gray-600 mb-2">
-            Quant. de Usuários <span className="text-red-500">*</span>
+        <div className="w-[140px]">
+          <label className="flex items-center gap-1  text-[13px] text-gray-600 mb-2">
+            Quant. de Usuários
+            {hasOffice === "false" &&
+              confirmedPlans.filter((plan: Plan) => plan.newPlan === true)
+                .length === 0 && <span className="text-red-500">*</span>}
           </label>
           <div className="flex items-center">
             <Button
@@ -175,31 +207,61 @@ export default function AddNewPlan({
               +
             </Button>
           </div>
-          {hasTriedSubmit && newPlanInput.users < 1 && (
-            <p className="text-red-500 text-xs mt-1">
-              Selecione pelo menos 1 usuário
-            </p>
-          )}
+          {hasTriedSubmit &&
+            newPlanInput.users < 1 &&
+            hasOffice === "false" &&
+            confirmedPlans.filter((plan: Plan) => plan.newPlan === true)
+              .length === 0 && (
+              <p className="text-red-500 text-xs mt-1">
+                Selecione pelo menos 1 usuário
+              </p>
+            )}
         </div>
         <div className="w-[100px]">
-          <label className="block text-[12px] text-gray-600 mb-2">
-            Modalidade <span className="text-red-500">*</span>
+          <label className="flex items-center gap-1  text-[13px] text-gray-600 mb-2">
+            Modalidade
+            {hasOffice === "false" &&
+              confirmedPlans.filter((plan: Plan) => plan.newPlan === true)
+                .length === 0 && <span className="text-red-500">*</span>}
           </label>
           <Select
             size="middle"
             value={newPlanInput.type || undefined}
-            onChange={handleNewTypeChange}
+            onChange={(value) => {
+              updateNewPlanInput("type", value);
+
+              if (newPlanInput?.planName) {
+                const priceMap = {
+                  Basic: { mensal: "31,23", anual: "" },
+                  Standard: { mensal: "80,90", anual: "" },
+                  Negocios: { mensal: "73,00", anual: "" },
+                };
+
+                const price =
+                  value === "anual"
+                    ? priceMap[newPlanInput?.planName as keyof typeof priceMap]
+                        .anual
+                    : priceMap[newPlanInput?.planName as keyof typeof priceMap][
+                        value as "mensal"
+                      ];
+
+                updateNewPlanInput("price", price);
+              }
+            }}
             className="w-[100px]"
           >
             <Option value="mensal">Mensal</Option>
-            {/* <Option value="anual">Anual</Option> */}
           </Select>
-          {hasTriedSubmit && !newPlanInput.type && (
-            <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
-          )}
+          {hasTriedSubmit &&
+            !newPlanInput.type &&
+            hasOffice === "false" &&
+            confirmedPlans.filter((plan: Plan) => plan.newPlan === true)
+              .length === 0 && (
+              <p className="text-red-500 text-xs mt-1">Campo obrigatório</p>
+            )}
         </div>
         <div className="w-[260px]">
-          <label className="block text-[12px] text-gray-600 mb-2">
+          <label className="flex items-center gap-1  text-[13px] text-gray-600 mb-2">
             Valor Total
           </label>
           <div className="flex gap-2">
@@ -211,12 +273,6 @@ export default function AddNewPlan({
                 R$ {formatPrice(newPlanInput?.price || "0", newPlanInput.users)}
                 /{newPlanInput.type === "anual" ? "mês" : "mês"}
               </span>{" "}
-              {newPlanInput?.type === "anual" && (
-                <span className="bg-green-600 text-white rounded-md p-1.5 text-[14px]">
-                  {" "}
-                  - 33%
-                </span>
-              )}
             </div>
             <Button
               size="middle"
@@ -246,6 +302,6 @@ export default function AddNewPlan({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
