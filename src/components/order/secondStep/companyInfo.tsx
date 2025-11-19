@@ -39,7 +39,10 @@ export default function CompanyInfo() {
   };
 
   const getTotalUsers = () => {
-    return confirmedPlans.reduce((total, plan) => total + plan.users, 0);
+    return (orderData?.plans || confirmedPlans)?.reduce(
+      (total: any, plan: any) => total + plan.users,
+      0
+    );
   };
 
   const { orderId } = useParams<{ orderId: string }>();
