@@ -3,6 +3,7 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import type { OrderData } from "../../../interfaces/order";
 
 import { formatCPF } from "../../../utils/formatCPF";
+import { formatPrice } from "../../../utils/formatPrice";
 
 (pdfMake as any).vfs = pdfFonts.vfs;
 
@@ -98,23 +99,40 @@ export const generatePDF = async (office: OrderData) => {
       {
         table: {
           headerRows: 1,
-          widths: ["*", 60, 50, 70],
+          widths: ["*", 70, 70, 70, 80],
           body: [
             [
               { text: "Plano", style: "tableHeader" },
-              { text: "Tipo", style: "tableHeader" },
               { text: "Usuários", style: "tableHeader" },
+              { text: "Modalidade", style: "tableHeader" },
+              { text: "Valor Unitário", style: "tableHeader" },
+
               { text: "Valor Total", style: "tableHeader" },
             ],
             ...(office.plans && office.plans.length > 0
               ? office.plans.map((plan) => [
-                  { text: plan.planName || "-", style: "tableBody" },
-                  { text: plan.type || "-", style: "tableBody" },
+                  {
+                    text: "Business " + plan.planName || "-",
+                    style: "tableBody",
+                  },
+
                   { text: plan.users?.toString() || "0", style: "tableBody" },
                   {
-                    text: formatCurrency(
-                      parseFloat(plan.price || "0") * (plan.users || 0)
-                    ),
+                    text: plan.type === "mensal" ? "Mensal" : "-",
+                    style: "tableBody",
+                  },
+                  {
+                    text: Number(plan.price.replace(",", "."))
+                      .toFixed(2)
+                      .replace(".", ","),
+                    style: "tableBody",
+                  },
+                  {
+                    text: (
+                      Number(plan.price.replace(",", ".")) * (plan?.users ?? 0)
+                    )
+                      .toFixed(2)
+                      .replace(".", ","),
                     style: "tableBody",
                   },
                 ])
