@@ -57,10 +57,12 @@ export default function ThirdStep() {
       return;
     }
     const updateData = {
-      managerPhone,
-      second_manager_phone,
-      acceptContact,
-      acceptTerms,
+      pedido: {
+        managerPhone,
+        second_manager_phone,
+        acceptContact,
+        acceptTerms,
+      },
     };
 
     try {
@@ -87,6 +89,7 @@ export default function ThirdStep() {
     orderData?.data?.managerPhone ||
     orderData?.data?.manager_phone ||
     thirdStepData.managerPhone ||
+    orderData?.managerPhone ||
     "";
 
   return (
@@ -94,7 +97,7 @@ export default function ThirdStep() {
       <div className="flex flex-col min-h-[100vh] overflow-y-auto scrollbar-thin">
         <Header />
 
-        {orderData?.data.status === "fechado" ? (
+        {orderData?.data?.status === "fechado" ? (
           <div className="flex flex-col flex-1 px-8 pt-8 pb-4 justify-between bg-[#f7f7f7] ">
             <div className="flex flex-col items-center gap-4 min-h-[60vh] justify-center overflow-y-auto scrollbar-thin">
               <span>Seu pedido já foi finalizado!</span>

@@ -2,16 +2,45 @@ import { Button, ConfigProvider } from "antd";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useOrderStore } from "../../../context/context";
 
 export default function CardLayout({ cardData }: { cardData: any }) {
   const navigate = useNavigate();
-  const isVivoClient = sessionStorage.getItem("isVivoClient");
+
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const hasOffice = sessionStorage.getItem("alreadyHaveMicrosoftDomain");
   const toggleDetails = (cardType: string) => {
     setExpandedCard(expandedCard === cardType ? null : cardType);
   };
+  const { setSelectedPlan, confirmedPlans, setConfirmedPlans } =
+    useOrderStore();
 
+  const handlePlanSelection = (cardData: any) => {
+    const type = "mensal";
+
+    const price = cardData?.price;
+
+    const newPlan = {
+      id: Date.now().toString(),
+      planName: cardData?.title,
+      price: price,
+      users: 1,
+      type: type as "mensal" | "anual",
+      newPlan: true,
+    };
+
+    setConfirmedPlans([...confirmedPlans, newPlan]);
+
+    setSelectedPlan({
+      planName: cardData?.title,
+      price: cardData?.price,
+      priceYear: cardData?.priceYear,
+      servicesIncluded: [],
+    });
+
+    navigate("/choose-plan");
+    window.scrollTo(0, 0);
+  };
   return (
     <>
       <div className="flex flex-col w-full items-center relative">
@@ -53,10 +82,7 @@ export default function CardLayout({ cardData }: { cardData: any }) {
 
             <div className="flex flex-col items-start gap-1 mx-4">
               <p style={{ margin: 0 }} className=" text-[20px] text-gray-900">
-                R${" "}
-                {isVivoClient === "true"
-                  ? cardData.priceClient
-                  : cardData.priceNonClient}{" "}
+                R$ {cardData.priceClient}
                 <span className="text-[20px] text-gray-600">/mês</span>
               </p>
               <p className="text-gray-600 text-[12px]">por usuário</p>
@@ -68,7 +94,10 @@ export default function CardLayout({ cardData }: { cardData: any }) {
               variant="solid"
               size="large"
               color="magenta"
-              onClick={() => (navigate("/choose-plan"), window.scrollTo(0, 0))}
+              onClick={() => {
+                sessionStorage.setItem("currentUrl", window.location.href);
+                handlePlanSelection(cardData);
+              }}
             >
               {hasOffice === "true" ? "Migrar" : "Contratar"}
             </Button>

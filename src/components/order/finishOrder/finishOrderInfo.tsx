@@ -18,6 +18,7 @@ export default function FinishOrderInfo() {
   const { id } = useParams<{ id: string }>();
 
   const { data: orderData, isLoading } = useOrderById(Number(id));
+  console.log(orderData);
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -27,7 +28,7 @@ export default function FinishOrderInfo() {
     );
   }
 
-  const orderDetails = orderData?.data;
+  const orderDetails = orderData;
   const confirmedPlans =
     orderDetails?.plan ||
     orderDetails?.plans ||
@@ -50,7 +51,7 @@ export default function FinishOrderInfo() {
         second_manager_phone:
           orderDetails.second_manager_phone ||
           orderDetails.second_manager_phone,
-        domain: orderDetails.domain_name,
+        domain: orderDetails.domainName,
         alreadyHaveWorkspace:
           orderDetails.alreadyHaveWorkspace ||
           orderDetails.already_have_workspace,
@@ -81,7 +82,7 @@ export default function FinishOrderInfo() {
                 variant="solid"
                 onClick={(e) => {
                   e.stopPropagation();
-                  generatePDF(orderData?.data);
+                  generatePDF(orderData);
                 }}
               >
                 Gerar PDF

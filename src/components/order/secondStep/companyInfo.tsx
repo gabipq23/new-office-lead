@@ -76,14 +76,16 @@ export default function CompanyInfo() {
     }
 
     const updateData = {
-      domainName,
-      cnpj,
-      email,
-      manager_name: managerName,
-      managerPhone,
-      company_name,
-      cpf,
-      i_have_authorization,
+      pedido: {
+        domainName,
+        cnpj,
+        email,
+        manager_name: managerName,
+        managerPhone,
+        company_name,
+        cpf,
+        i_have_authorization,
+      },
     };
 
     updateSecondStepData({
@@ -115,7 +117,7 @@ export default function CompanyInfo() {
     <div className="flex flex-col min-h-[100vh] overflow-y-auto scrollbar-thin">
       <Header />
 
-      {orderData?.data.status === "fechado" ? (
+      {orderData?.data?.status === "fechado" ? (
         <div className="flex flex-col flex-1 px-8 pt-8 pb-4 justify-between bg-[#f7f7f7] ">
           <div className="flex flex-col items-center gap-4 min-h-[60vh] justify-center overflow-y-auto scrollbar-thin">
             <span>Seu pedido já foi finalizado!</span>

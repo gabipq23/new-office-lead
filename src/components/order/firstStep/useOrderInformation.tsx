@@ -478,7 +478,7 @@ export function useOrderInformation() {
     try {
       const response = await createOrder({ data: orderData });
 
-      navigate(`/client-information/${response.id}`);
+      navigate(`/client-information/${response.pedido.id}`);
       sessionStorage.setItem("status", "aberto");
       window.scrollTo(0, 0);
     } catch (error) {
