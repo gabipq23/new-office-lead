@@ -1,16 +1,7 @@
 import { create } from "zustand";
 import type { Plan, OrderData } from "../interfaces/order";
 
-interface BasicInfo {
-  cnpj: string;
-  email: string;
-  manager_name: string;
-  managerPhone: string;
-  isVivoClient: boolean;
-  acceptContact: boolean;
-}
-
-interface ConfirmedPlan {
+export interface ConfirmedPlan {
   id: string;
   planName: string;
   price: string;
@@ -19,25 +10,45 @@ interface ConfirmedPlan {
   newPlan: boolean;
 }
 
-interface CompanyInfo {
-  domainName: string;
+export interface FirstStepData {
+  isVivoClient: boolean;
   alreadyHaveMicrosoftDomain: boolean;
+}
+
+export interface SecondStepData {
+  domainName: string;
+  cnpj: string;
+  email: string;
+  manager_name: string;
+  managerPhone: string;
+  company_name: string;
+  cpf: string;
+  i_have_authorization: boolean;
+}
+
+export interface ThirdStepData {
+  managerPhone: string;
+  buyers_phone: string;
+  acceptContact: boolean;
   acceptTerms: boolean;
+  second_manager_phone?: string;
 }
 
 interface OrderFlowStore {
   selectedPlan: Plan | null;
   confirmedPlans: ConfirmedPlan[];
-  basicInfo: BasicInfo;
-  companyInfo: Partial<CompanyInfo>;
+  firstStepData: FirstStepData;
+  secondStepData: Partial<SecondStepData>;
+  thirdStepData: Partial<ThirdStepData>;
   setSelectedPlan: (plan: Plan) => void;
   setConfirmedPlans: (plans: ConfirmedPlan[]) => void;
   addPlanToConfirmed: (plan: Plan) => void;
   addCurrentPlanToConfirmed: (plan: Plan) => void;
   addNewPlanToConfirmed: (plan: Plan) => void;
   removePlanFromConfirmed: (planId: string) => void;
-  updateBasicInfo: (info: Partial<BasicInfo>) => void;
-  updateCompanyInfo: (info: Partial<CompanyInfo>) => void;
+  updateFirstStepData: (info: Partial<FirstStepData>) => void;
+  updateSecondStepData: (info: Partial<SecondStepData>) => void;
+  updateThirdStepData: (info: Partial<ThirdStepData>) => void;
   buildCompleteOrder: () => OrderData | null;
   clearOrder: () => void;
 }
@@ -45,18 +56,27 @@ interface OrderFlowStore {
 export const useOrderStore = create<OrderFlowStore>((set, get) => ({
   selectedPlan: null,
   confirmedPlans: [],
-  basicInfo: {
+  firstStepData: {
+    isVivoClient: sessionStorage.getItem("isVivoClient") === "true",
+    alreadyHaveMicrosoftDomain:
+      sessionStorage.getItem("alreadyHaveMicrosoftDomain") === "true",
+  },
+  secondStepData: {
+    domainName: "",
     cnpj: "",
     email: "",
     manager_name: "",
     managerPhone: "",
-    isVivoClient: sessionStorage.getItem("isVivoClient") === "true",
-    acceptContact: true,
+    company_name: "",
+    cpf: "",
+    i_have_authorization: false,
   },
-  companyInfo: {
-    domainName: "",
-    alreadyHaveMicrosoftDomain: false,
+  thirdStepData: {
+    managerPhone: "",
+    buyers_phone: "",
+    acceptContact: false,
     acceptTerms: false,
+    second_manager_phone: "",
   },
 
   setSelectedPlan: (plan: Plan) => {
@@ -73,7 +93,7 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
       planName: plan.planName,
       price: plan.price,
       users: plan.users || 1,
-      type: plan.type || "anual",
+      type: plan.type || "mensal",
       newPlan: true,
     };
     set((state) => ({
@@ -87,7 +107,7 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
       planName: plan.planName,
       price: plan.price,
       users: plan.users || 1,
-      type: plan.type || "anual",
+      type: plan.type || "mensal",
       newPlan: false,
     };
     set((state) => ({
@@ -101,7 +121,7 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
       planName: plan.planName,
       price: plan.price,
       users: plan.users || 1,
-      type: plan.type || "anual",
+      type: plan.type || "mensal",
       newPlan: true,
     };
     set((state) => ({
@@ -115,15 +135,21 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
     }));
   },
 
-  updateBasicInfo: (info: Partial<BasicInfo>) => {
+  updateFirstStepData: (info: Partial<FirstStepData>) => {
     set((state) => ({
-      basicInfo: { ...state.basicInfo, ...info },
+      firstStepData: { ...state.firstStepData, ...info },
     }));
   },
 
-  updateCompanyInfo: (info: Partial<CompanyInfo>) => {
+  updateSecondStepData: (info: Partial<SecondStepData>) => {
     set((state) => ({
-      companyInfo: { ...state.companyInfo, ...info },
+      secondStepData: { ...state.secondStepData, ...info },
+    }));
+  },
+
+  updateThirdStepData: (info: Partial<ThirdStepData>) => {
+    set((state) => ({
+      thirdStepData: { ...state.thirdStepData, ...info },
     }));
   },
 
@@ -132,7 +158,7 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
     if (state.confirmedPlans.length === 0) return null;
 
     const apiPlans: Plan[] = state.confirmedPlans.map((plan) => ({
-      planName: `Microsoft Office 365 ${plan.planName}`,
+      planName: `Microsoft Office 365 Business ${plan.planName}`,
       price: plan.price,
       type: plan.type as "mensal" | "anual",
       users: plan.users,
@@ -140,17 +166,24 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
     }));
 
     return {
-      email: state.basicInfo.email,
-      domainName: state.companyInfo.domainName || "",
-      cnpj: state.basicInfo.cnpj,
-      managerPhone: state.basicInfo.managerPhone,
-      manager_name: state.basicInfo.manager_name,
-      isVivoClient: state.basicInfo.isVivoClient,
+      email: state.secondStepData.email || "",
+      domainName: state.secondStepData.domainName || "",
+      cnpj: state.secondStepData.cnpj || "",
+      managerPhone:
+        state.thirdStepData.managerPhone ||
+        state.secondStepData.managerPhone ||
+        "",
+      manager_name: state.secondStepData.manager_name || "",
+      isVivoClient: state.firstStepData.isVivoClient,
       alreadyHaveMicrosoftDomain:
-        state.companyInfo.alreadyHaveMicrosoftDomain || false,
-      acceptContact: state.basicInfo.acceptContact,
-      acceptTerms: state.companyInfo.acceptTerms || false,
+        state.firstStepData.alreadyHaveMicrosoftDomain,
+      acceptContact: state.thirdStepData.acceptContact || false,
+      acceptTerms: state.thirdStepData.acceptTerms || false,
       plans: apiPlans,
+      company_name: state.secondStepData.company_name || "",
+      cpf: state.secondStepData.cpf || "",
+      i_have_authorization: state.secondStepData.i_have_authorization || false,
+      second_manager_phone: state.thirdStepData.second_manager_phone || "",
     };
   },
 
@@ -158,18 +191,26 @@ export const useOrderStore = create<OrderFlowStore>((set, get) => ({
     set({
       selectedPlan: null,
       confirmedPlans: [],
-      basicInfo: {
+      firstStepData: {
+        isVivoClient: false,
+        alreadyHaveMicrosoftDomain: false,
+      },
+      secondStepData: {
+        domainName: "",
         cnpj: "",
         email: "",
         manager_name: "",
         managerPhone: "",
-        isVivoClient: true,
-        acceptContact: true,
+        company_name: "",
+        cpf: "",
+        i_have_authorization: false,
       },
-      companyInfo: {
-        domainName: "",
-        alreadyHaveMicrosoftDomain: false,
+      thirdStepData: {
+        managerPhone: "",
+        buyers_phone: "",
+        acceptContact: false,
         acceptTerms: false,
+        second_manager_phone: "",
       },
     });
   },
