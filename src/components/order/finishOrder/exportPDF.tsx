@@ -88,7 +88,7 @@ export const generatePDF = async (office: OrderData) => {
       },
 
       // Planos Contratados
-      { text: "Planos Office Contratados", style: "sectionHeader" },
+      { text: "Planos Contratados", style: "sectionHeader" },
       {
         table: {
           headerRows: 1,
