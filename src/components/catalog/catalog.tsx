@@ -50,21 +50,29 @@ export default function Catalog() {
 
         <FAQ />
         <Footer />
-
-        <Modal
-          centered
-          title=""
-          open={isModalOpen}
-          footer={null}
-          width={500}
-          closable={false}
-          maskClosable={false}
-          keyboard={false}
+        <ConfigProvider
+          theme={{
+            components: {
+              Modal: {
+                colorBgMask: "rgba(0, 0, 0, 0.8)",
+              },
+            },
+          }}
         >
-          <div>
-            {modalStep === 1 ? (
-              <>
-                {/* <div className="flex flex-col gap-4">
+          <Modal
+            centered
+            title=""
+            open={isModalOpen}
+            footer={null}
+            width={500}
+            closable={false}
+            maskClosable={false}
+            keyboard={false}
+          >
+            <div>
+              {modalStep === 1 ? (
+                <>
+                  {/* <div className="flex flex-col gap-4">
                   <div>
                     <h1
                       style={{ margin: 0 }}
@@ -91,139 +99,127 @@ export default function Catalog() {
                   </p>
                 </div> */}
 
-                <div className="flex items-center justify-center gap-8 my-2 mb-6">
-                  <img
-                    src="/office-365-1.svg"
-                    className="h-5 md:h-11 hover:cursor-pointer"
-                    alt="Office"
-                  />
-                </div>
-
-                <div>
-                  <p
-                    style={{ margin: 0 }}
-                    className="text-[24px] text-center text-gray-800"
-                  >
-                    Você já possui conta Office 365?
-                  </p>
-                  <div className="flex gap-4 items-center justify-center my-4">
-                    <ConfigProvider
-                      theme={{
-                        token: {
-                          colorText: "#ffffff",
-                          colorPrimary: "#b677d6",
-                          colorBgBase: "#660099",
-                          fontSize: 18,
-                        },
-                      }}
-                    >
-                      <Button
-                        size="large"
-                        className=" cursor-pointer w-44 "
-                        onClick={() => handleOfficeResponse(true)}
-                      >
-                        Sim
-                      </Button>
-                    </ConfigProvider>
-                    <ConfigProvider
-                      theme={{
-                        token: {
-                          colorPrimary: "#a428e2",
-                          colorText: "#660099",
-                          colorBorder: "#660099",
-
-                          fontSize: 18,
-                        },
-                      }}
-                    >
-                      <Button
-                        size="large"
-                        className=" cursor-pointer  w-44"
-                        onClick={() => handleOfficeResponse(false)}
-                      >
-                        Não
-                      </Button>
-                    </ConfigProvider>
+                  <div className="flex flex-col  items-center justify-center gap-4 my-2 mb-6">
+                    <img
+                      src="/office-365-1.svg"
+                      className="h-5 md:h-13 hover:cursor-pointer"
+                      alt="Office"
+                    />
+                    <img
+                      src="/icones-office.png"
+                      className="h-5 md:h-16 hover:cursor-pointer"
+                      alt="Office"
+                    />
                   </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex flex-col gap-2 items-center justify-center  my-2 mb-6">
-                  <img
-                    src="/Vivo-Empresas.png"
-                    className="h-5 md:h-9 hover:cursor-pointer"
-                    alt="Office"
-                  />
-                  <img
-                    src="/vivo-movel.png"
-                    className="h-5 md:h-16 hover:cursor-pointer"
-                    alt="Office"
-                  />
-                </div>
 
-                <div className="flex flex-col gap-4">
                   <div>
-                    <h1
+                    <p
                       style={{ margin: 0 }}
-                      className="text-[22px] text-center text-gray-800"
+                      className="text-[24px] text-center text-gray-800"
                     >
-                      É cliente Vivo Empresas Móvel?
-                    </h1>
+                      Você já possui conta Office 365?
+                    </p>
+                    <div className="flex gap-4 items-center justify-center my-4">
+                      <ConfigProvider
+                        theme={{
+                          token: {
+                            colorPrimary: "#660099",
+                            colorText: "#660099",
+                            colorBorder: "#660099",
+                            fontSize: 16,
+                            colorPrimaryHover: "#9933cc",
+                          },
+                        }}
+                      >
+                        <Button
+                          type="primary"
+                          size="large"
+                          className=" cursor-pointer w-44 "
+                          onClick={() => handleOfficeResponse(true)}
+                        >
+                          Sim
+                        </Button>
+
+                        <Button
+                          size="large"
+                          className=" cursor-pointer  w-44"
+                          onClick={() => handleOfficeResponse(false)}
+                        >
+                          Não
+                        </Button>
+                      </ConfigProvider>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex flex-col gap-4 items-center justify-center  my-2 mb-6">
+                    <img
+                      src="/Vivo-Empresas.png"
+                      className="h-5 md:h-9 hover:cursor-pointer"
+                      alt="Office"
+                    />
+                    <img
+                      src="/vivo-movel.png"
+                      className="h-5 md:h-16 hover:cursor-pointer"
+                      alt="Office"
+                    />
                   </div>
 
-                  {/* <p
+                  <div className="flex flex-col gap-4">
+                    <div>
+                      <h1
+                        style={{ margin: 0 }}
+                        className="text-[22px] text-center text-gray-800"
+                      >
+                        É cliente Vivo Empresas Móvel?
+                      </h1>
+                    </div>
+
+                    {/* <p
                     style={{ margin: 0 }}
                     className="text-[14px] text-center text-gray-600"
                   >
                     Clientes Vivo Móvel têm benefícios especiais e ganham +2GB
                     de internet por licença contratada.
                   </p> */}
-                </div>
+                  </div>
 
-                <div className="flex gap-4 items-center justify-center my-4">
-                  <ConfigProvider
-                    theme={{
-                      token: {
-                        colorText: "#ffffff",
-                        colorPrimary: "#b677d6",
-                        colorBgBase: "#660099",
-                        fontSize: 18,
-                      },
-                    }}
-                  >
-                    <Button
-                      size="large"
-                      className=" cursor-pointer w-44"
-                      onClick={() => handleIsVivoClientResponse(true)}
+                  <div className="flex gap-4 items-center justify-center my-4">
+                    <ConfigProvider
+                      theme={{
+                        token: {
+                          colorPrimary: "#660099",
+                          colorText: "#660099",
+                          colorBorder: "#660099",
+                          fontSize: 16,
+                          colorPrimaryHover: "#9933cc",
+                        },
+                      }}
                     >
-                      Sim, sou cliente
-                    </Button>
-                  </ConfigProvider>
-                  <ConfigProvider
-                    theme={{
-                      token: {
-                        colorPrimary: "#a428e2",
-                        colorText: "#660099",
-                        colorBorder: "#660099",
+                      <Button
+                        type="primary"
+                        size="large"
+                        className=" cursor-pointer w-44"
+                        onClick={() => handleIsVivoClientResponse(true)}
+                      >
+                        Sim, sou cliente
+                      </Button>
 
-                        fontSize: 18,
-                      },
-                    }}
-                  >
-                    <Button
-                      size="large"
-                      className=" cursor-pointer  w-44"
-                      onClick={() => handleIsVivoClientResponse(false)}
-                    >
-                      Não sou cliente
-                    </Button>
-                  </ConfigProvider>
-                </div>
-              </>
-            )}
-          </div>
-        </Modal>
+                      <Button
+                        size="large"
+                        className=" cursor-pointer  w-44"
+                        onClick={() => handleIsVivoClientResponse(false)}
+                      >
+                        Não sou cliente
+                      </Button>
+                    </ConfigProvider>
+                  </div>
+                </>
+              )}
+            </div>
+          </Modal>
+        </ConfigProvider>
       </QueryClientProvider>
     </>
   );

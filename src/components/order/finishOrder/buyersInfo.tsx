@@ -72,8 +72,8 @@ export default function InfoComprador(basicInfo: any) {
         </div>
         <div className="hidden md:grid grid-cols-2 gap-28 text-[14px] w-full text-neutral-700">
           <p>
-            <strong>Já possui Workspace:</strong>
-            {basicInfo.basicInfo?.alreadyHaveWorkspace ? "Sim" : "Não"}
+            <strong>Já possui Office 365:</strong>
+            {basicInfo.basicInfo?.alreadyHaveMicrosoftDomain ? "Sim" : "Não"}
           </p>
           <p>
             <strong>Domínio:</strong> {basicInfo.basicInfo?.domain || "-"}
@@ -106,8 +106,8 @@ export default function InfoComprador(basicInfo: any) {
         {/* Mobile: Email e Cliente Vivo em coluna */}
         <div className="flex flex-col gap-2 md:hidden text-[14px]  text-neutral-700">
           <p>
-            <strong>Já possui Workspace:</strong>
-            {basicInfo.basicInfo?.alreadyHaveWorkspace ? "Sim" : "Não"}
+            <strong>Já possui Office 365:</strong>
+            {basicInfo.basicInfo?.alreadyHaveMicrosoftDomain ? "Sim" : "Não"}
           </p>
           <p>
             <strong>Domínio:</strong> {basicInfo.basicInfo?.domain || "-"}

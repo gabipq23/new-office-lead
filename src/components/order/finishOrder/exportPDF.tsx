@@ -3,7 +3,6 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import type { OrderData } from "../../../interfaces/order";
 
 import { formatCPF } from "../../../utils/formatCPF";
-import { formatPrice } from "../../../utils/formatPrice";
 
 (pdfMake as any).vfs = pdfFonts.vfs;
 
@@ -57,7 +56,8 @@ export const generatePDF = async (office: OrderData) => {
   const valorTotalMensal =
     office.plans?.reduce(
       (total, plan) =>
-        total + parseFloat(plan.price || "0") * (plan.users || 0),
+        total +
+        parseFloat(plan.price.replace(",", ".") || "0") * (plan.users || 0),
       0
     ) || 0;
 
@@ -164,9 +164,9 @@ export const generatePDF = async (office: OrderData) => {
 
           `Nome do Domínio: ${office?.domainName || "-"}`,
           `Já possui Office: ${
-            office.alreadyHaveMicrosoftDomain === 1 ? "Sim" : "Não"
+            office.alreadyHaveMicrosoftDomain === true ? "Sim" : "Não"
           }`,
-          `É Cliente Vivo: ${office.isVivoClient === 1 ? "Sim" : "Não"}`,
+          `É Cliente Vivo: ${office.isVivoClient === true ? "Sim" : "Não"}`,
         ],
         style: "content",
       },
@@ -204,7 +204,7 @@ export const generatePDF = async (office: OrderData) => {
         columns: [
           { text: "Valor Total Mensal", style: "content" },
           {
-            text: formatCurrency(valorTotalMensal),
+            text: `R$ ${valorTotalMensal.toFixed(2).replace(".", ",")}`,
             style: "content",
             alignment: "right",
           },

@@ -86,9 +86,7 @@ export default function OrderTable({
             >
               <div className="flex justify-between">
                 <span className="font-semibold text-[#666] ">Plano:</span>
-                <span className="text-end">
-                  Google Workspace Business {plan?.planName}
-                </span>
+                <span className="text-end">Business {plan?.planName}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-semibold text-[#666]">Usuários:</span>

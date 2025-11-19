@@ -52,9 +52,9 @@ export default function FinishOrderInfo() {
           orderDetails.second_manager_phone ||
           orderDetails.second_manager_phone,
         domain: orderDetails.domainName,
-        alreadyHaveWorkspace:
-          orderDetails.alreadyHaveWorkspace ||
-          orderDetails.already_have_workspace,
+        alreadyHaveMicrosoftDomain:
+          orderDetails.alreadyHaveMicrosoftDomain ||
+          orderDetails.alreadyHaveMicrosoftDomain,
       }
     : null;
 
