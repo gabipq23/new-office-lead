@@ -75,24 +75,6 @@ function SubHeader() {
       key: "3",
       label: (
         <a
-          href="#apps"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("apps")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
-        >
-          Aplicativos
-        </a>
-      ),
-    },
-    {
-      key: "4",
-      label: (
-        <a
           href="#beneficios"
           onClick={(e) => {
             e.preventDefault();
@@ -104,6 +86,24 @@ function SubHeader() {
           className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
         >
           Benefícios
+        </a>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <a
+          href="#apps"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("apps")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }}
+          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+        >
+          Aplicativos
         </a>
       ),
     },
@@ -207,19 +207,6 @@ function SubHeader() {
               : "Porque Escolher Office 365"}
           </a>
           <a
-            href="#apps"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("apps")?.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }}
-            className="hover:text-[#660099]"
-          >
-            Aplicativos
-          </a>
-          <a
             href="#beneficios"
             onClick={(e) => {
               e.preventDefault();
@@ -231,6 +218,20 @@ function SubHeader() {
             className="hover:text-[#660099]"
           >
             Benefícios
+          </a>
+
+          <a
+            href="#apps"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("apps")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }}
+            className="hover:text-[#660099]"
+          >
+            Aplicativos
           </a>
 
           <a

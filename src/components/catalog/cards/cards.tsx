@@ -211,7 +211,7 @@ export default function Cards() {
           </div>
         </div>
 
-        <div className="flex  items-start  justify-start text-start">
+        <div className="flex  items-start   justify-start text-start">
           <p style={{ margin: 0 }} className="text-[10px] text-[#5f6368] ">
             ¹A contratação do assistente de IA da Microsoft está disponível para
             contratação com valor adicional ao oferecido no pacote. Conferir os
