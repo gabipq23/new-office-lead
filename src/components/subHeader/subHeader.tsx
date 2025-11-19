@@ -53,24 +53,29 @@ function SubHeader() {
           },
         ]
       : []),
-    {
-      key: "2",
-      label: (
-        <a
-          href="#porque-escolher"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("porque-escolher")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }}
-          className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
-        >
-          {hasOffice === "true" ? "Como migrar" : "Porque Escolher Office 365"}
-        </a>
-      ),
-    },
+
+    ...(hasOffice === "true"
+      ? [
+          {
+            key: "2",
+            label: (
+              <a
+                href="#porque-escolher"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("porque-escolher")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
+                className="text-gray-600 hover:text-[#660099] py-2 px-4 block"
+              >
+                Como migrar
+              </a>
+            ),
+          },
+        ]
+      : []),
     {
       key: "3",
       label: (
@@ -190,22 +195,23 @@ function SubHeader() {
               Depoimentos
             </a>
           )}
-
-          <a
-            href="#porque-escolher"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("porque-escolher")?.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }}
-            className="hover:text-[#660099]"
-          >
-            {hasOffice === "true"
-              ? "Como migrar"
-              : "Porque Escolher Office 365"}
-          </a>
+          {hasOffice === "true" && (
+            <a
+              href="#porque-escolher"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("porque-escolher")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+              className="hover:text-[#660099]"
+            >
+              {hasOffice === "true"
+                ? "Como migrar"
+                : "Porque Escolher Office 365"}
+            </a>
+          )}
           <a
             href="#beneficios"
             onClick={(e) => {

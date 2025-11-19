@@ -22,7 +22,7 @@ export default function CardLayout({ cardData }: { cardData: any }) {
             {cardData.badge}
           </div>
         )}
-        <div className="flex w-full min-w-[220px] max-w-[260px] flex-col border border-gray-300 rounded-sm bg-white shadow-sm">
+        <div className="flex w-full min-w-[230px] max-w-[260px] flex-col border border-gray-300 rounded-sm bg-white shadow-sm">
           <div className=" flex flex-col gap-2">
             <div className="text-start pt-6 px-4">
               <p style={{ margin: 0 }} className=" text-[16px] ">
