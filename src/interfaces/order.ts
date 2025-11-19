@@ -43,16 +43,16 @@ export interface OrderData {
 
 export interface CreateOrderData {
   pedido: {
-    email: string;
-    cnpj: string;
-    manager_name: string;
-    managerPhone: string;
-    isVivoClient: boolean;
-    acceptContact: boolean;
-    alreadyHaveMicrosoftDomain: boolean;
-    domainName: string;
-    acceptTerms: boolean;
-    status: string;
+    email?: string;
+    cnpj?: string;
+    manager_name?: string;
+    managerPhone?: string;
+    isVivoClient?: boolean;
+    acceptContact?: boolean;
+    alreadyHaveMicrosoftDomain?: boolean;
+    domainName?: string;
+    acceptTerms?: boolean;
+    status?: string;
     i_have_authorization?: boolean;
     second_manager_phone?: string;
     cpf?: string | null;

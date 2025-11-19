@@ -15,7 +15,7 @@ export default function OrderResumeMobile({
       <div className=" w-full flex flex-col bg-[#660099] text-white  pt-2">
         <div className=" flex items-end justify-end text-[12px] gap-2 px-3">
           <span className="text-white">🛒</span>
-          <span className="">Seu plano</span>
+          <span className="">Planos</span>
         </div>
 
         <h3
@@ -102,7 +102,7 @@ export default function OrderResumeMobile({
               <div key={plan.id} className="mb-3 p-3 bg-white rounded-md">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[#660099] font-bold text-[11px]">
-                    Plano {index + 1}: Office 365 {plan.planName}
+                    Plano {index + 1}: Business {plan.planName}
                   </span>
                   <span className="text-[#660099] font-bold text-[11px]">
                     {plan.users} usuário(s)

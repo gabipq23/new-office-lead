@@ -1,14 +1,14 @@
 import { ChevronDown, ChevronUp, CircleCheck } from "lucide-react";
 import { useState } from "react";
+import { formatPrice } from "../../../utils/formatPrice";
 import { Button, ConfigProvider } from "antd";
 import type { Plan } from "../../../interfaces/order";
-import { formatPrice } from "../../../utils/formatPrice";
 
 export function PlanCard({ plan, index }: { plan: Plan; index: number }) {
   const [showDetails, setShowDetails] = useState(false);
 
   const getPlanNameForCard = (planName: string) => {
-    return `Office 365  ${planName}`;
+    return `Business ${planName}`;
   };
 
   const getPlanDetailsForCard = (planName: string) => {
@@ -27,7 +27,7 @@ export function PlanCard({ plan, index }: { plan: Plan; index: number }) {
         "Controles de segurança e gerenciamento",
         "Suporte Padrão (upgrade pago para o Suporte Avançado)",
       ],
-      Plus: [
+      Negocios: [
         "E-mail corporativo personalizado e protegido, e-discovery e retenção",
         "Videochamadas com 500 participantes, gravação de reuniões e controle de presença",
         "5 TB de armazenamento em pool por usuário",
@@ -46,7 +46,7 @@ export function PlanCard({ plan, index }: { plan: Plan; index: number }) {
           <div className="text-gray-600 text-[10px] h-5 flex items-center  gap-2">
             Plano {index}{" "}
             <span className="bg-green-200 p-0.5 px-2 rounded-md">
-              {plan.newPlan ? "Novo" : "Atual"}
+              {plan.newPlan ? "Novo" : "Migração"}
             </span>
           </div>
           <div
