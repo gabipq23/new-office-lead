@@ -1,4 +1,4 @@
-import { api } from "../configs/api";
+import { api, apiConsultCnpj } from "../configs/api";
 import type { CreateOrderData } from "../interfaces/order";
 
 export class GetOfficePlanService {
@@ -17,6 +17,10 @@ export class GetOfficePlanService {
 
   async getOrderById(id: number | number) {
     const response = await api.get(`/pedidos-office/${id}`);
+    return response.data;
+  }
+  async getCnpjInfo(cnpj: string) {
+    const response = await apiConsultCnpj.get(`/estabelecimentos/${cnpj}`);
     return response.data;
   }
 }
